@@ -1,0 +1,19 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "UserApi\\UserApi.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "JewerlyWeb\\JewerlyWeb.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "JewerlyPublicWen\\JewerlyPublicWen.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
