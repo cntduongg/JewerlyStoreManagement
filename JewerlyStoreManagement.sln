@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BE", "BE", "{49081BA1-4477-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JewerlyPublicWen", "JewerlyPublicWen\JewerlyPublicWen.csproj", "{B3007E01-43C8-4AA5-A38C-100CE387D6B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductsApi", "ProductsApi\ProductsApi.csproj", "{C0ED6A88-0D9E-4BF1-816F-98739126EE01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{B3007E01-43C8-4AA5-A38C-100CE387D6B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3007E01-43C8-4AA5-A38C-100CE387D6B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3007E01-43C8-4AA5-A38C-100CE387D6B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0ED6A88-0D9E-4BF1-816F-98739126EE01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0ED6A88-0D9E-4BF1-816F-98739126EE01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0ED6A88-0D9E-4BF1-816F-98739126EE01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0ED6A88-0D9E-4BF1-816F-98739126EE01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{C6570EB3-B892-45C2-84D1-0B9811AFF105} = {49081BA1-4477-4090-A313-4ED38DE2272C}
 		{18E088A2-B14F-4913-8D90-22AA0B9FD36A} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{B3007E01-43C8-4AA5-A38C-100CE387D6B0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{C0ED6A88-0D9E-4BF1-816F-98739126EE01} = {49081BA1-4477-4090-A313-4ED38DE2272C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {915A4278-5CC8-48CB-832A-4DF660A1ED61}
