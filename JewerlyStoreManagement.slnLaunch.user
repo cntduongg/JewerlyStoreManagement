@@ -5,6 +5,10 @@
       {
         "Path": "JewerlyPublicWen\\JewerlyPublicWen.csproj",
         "Action": "Start"
+      },
+      {
+        "Path": "ProductsApi\\ProductsApi.csproj",
+        "Action": "Start"
       }
     ]
   }

@@ -26,8 +26,14 @@ namespace ProductsApi.Service
                     SellingPrice = product.Sellingprice,
                     MainImageUrl = product.Mainimageurl,
                     ShortDescription = product.Shortdescription,
-                    CategoryName = product.Category?.Categoryname
-                    
+                    CategoryName = product.Category?.Categoryname,
+                    GoldWeight = product.Goldweight,
+                    GemWeight = product.Gemweight,
+                    TotalWeight = product.Totalweight,
+                    Material = product.Material,
+                    HasGem = product.Hasgem,
+                    GemType = product.Gemtype
+                   
 
                 });
 

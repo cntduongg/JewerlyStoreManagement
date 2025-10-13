@@ -1,4 +1,4 @@
-using ProductsApi.Data;
+﻿using ProductsApi.Data;
 using Microsoft.EntityFrameworkCore;
 using ProductsApi.Repo.IRepo;
 using ProductsApi.Repo;
@@ -8,7 +8,17 @@ using ProductsApi.Service;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+// THÊM CORS VÀO BE
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .WithExposedHeaders("*"); // Thêm dòng này
+    });
+});
 //add postgre connect
 builder.Services.AddDbContext<AppDb>(options =>
 
@@ -32,7 +42,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
