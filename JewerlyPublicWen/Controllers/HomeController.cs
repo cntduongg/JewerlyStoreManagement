@@ -8,5 +8,13 @@ namespace JewerlyPublicWen.Controllers
         {
             return View();
         }
+        public ActionResult ViewAllProducts()
+        {
+            return View(); // This will render ViewAllProducts.cshtml
+        }
+        public ActionResult About()
+        {
+            return View();
+        }
     }
 }
