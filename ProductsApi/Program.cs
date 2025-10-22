@@ -20,7 +20,7 @@ builder.Services.AddCors(options =>
     });
 });
 //add postgre connect
-builder.Services.AddDbContext<AppDb>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
 
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")).UseSnakeCaseNamingConvention());
 builder.Services.AddControllers();

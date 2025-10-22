@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JewerlyWeb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+87e2595a42ae22778b89830c3078dc86de105dc2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+22eab399f5fada18c5d54ee40d9424c7651d5cb7")]
 [assembly: System.Reflection.AssemblyProductAttribute("JewerlyWeb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JewerlyWeb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

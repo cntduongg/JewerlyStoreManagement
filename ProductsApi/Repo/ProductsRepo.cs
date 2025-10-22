@@ -7,15 +7,15 @@ namespace ProductsApi.Repo
 {
     public class ProductsRepo : IProductsRepo
     {
-        private readonly AppDb _context;
+        private readonly AppDbContext _context;
 
-        public ProductsRepo(AppDb context)
+        public ProductsRepo(AppDbContext context)
         {
             _context = context;
         }
         public async Task<List<Product>> GetAllAsync()
         {
-            return await _context.products
+            return await _context.Products
                 .Include(p => p.Category) // Join với bảng categories
                 .OrderBy(p => p.Productid)
                 .ToListAsync();

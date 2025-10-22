@@ -32,3 +32,37 @@ C:\Users\ADMIN\Desktop\SWD312\JewerlyPublicWen\obj\Debug\net8.0\refint\JewerlyPu
 C:\Users\ADMIN\Desktop\SWD312\JewerlyPublicWen\obj\Debug\net8.0\JewerlyPublicWen.pdb
 C:\Users\ADMIN\Desktop\SWD312\JewerlyPublicWen\obj\Debug\net8.0\JewerlyPublicWen.genruntimeconfig.cache
 C:\Users\ADMIN\Desktop\SWD312\JewerlyPublicWen\obj\Debug\net8.0\ref\JewerlyPublicWen.dll
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\bin\Debug\net8.0\appsettings.Development.json
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\bin\Debug\net8.0\appsettings.json
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\bin\Debug\net8.0\JewerlyPublicWen.staticwebassets.runtime.json
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\bin\Debug\net8.0\JewerlyPublicWen.staticwebassets.endpoints.json
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\bin\Debug\net8.0\JewerlyPublicWen.exe
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\bin\Debug\net8.0\JewerlyPublicWen.deps.json
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\bin\Debug\net8.0\JewerlyPublicWen.runtimeconfig.json
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\bin\Debug\net8.0\JewerlyPublicWen.dll
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\bin\Debug\net8.0\JewerlyPublicWen.pdb
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\rpswa.dswa.cache.json
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\JewerlyPublicWen.GeneratedMSBuildEditorConfig.editorconfig
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\JewerlyPublicWen.AssemblyInfoInputs.cache
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\JewerlyPublicWen.AssemblyInfo.cs
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\JewerlyPublicWen.csproj.CoreCompileInputs.cache
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\JewerlyPublicWen.MvcApplicationPartsAssemblyInfo.cache
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\JewerlyPublicWen.RazorAssemblyInfo.cache
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\JewerlyPublicWen.RazorAssemblyInfo.cs
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\JewerlyPublicWen.sourcelink.json
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\rjimswa.dswa.cache.json
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\scopedcss\bundle\JewerlyPublicWen.styles.css
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\scopedcss\projectbundle\JewerlyPublicWen.bundle.scp.css
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\staticwebassets.build.json
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\staticwebassets.build.json.cache
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\staticwebassets.development.json
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\JewerlyPublicWen.dll
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\refint\JewerlyPublicWen.dll
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\JewerlyPublicWen.pdb
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\JewerlyPublicWen.genruntimeconfig.cache
+D:\Ki-12-FPT\SWD392 - Tran Cao Nguyen\JewerlyStoreManagement\JewerlyPublicWen\obj\Debug\net8.0\ref\JewerlyPublicWen.dll

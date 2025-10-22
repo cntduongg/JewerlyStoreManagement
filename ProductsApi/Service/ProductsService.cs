@@ -24,7 +24,7 @@ namespace ProductsApi.Service
 
                     ProductName = product.Productname,
                     SellingPrice = product.Sellingprice,
-                    MainImageUrl = product.Mainimageurl,
+                    MainImageUrl = product.Imageurl,
                     ShortDescription = product.Shortdescription,
                     CategoryName = product.Category?.Categoryname,
                     GoldWeight = product.Goldweight,
