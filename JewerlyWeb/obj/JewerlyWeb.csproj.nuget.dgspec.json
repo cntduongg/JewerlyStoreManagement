@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ADMIN\\Desktop\\SWD312\\JewerlyWeb\\JewerlyWeb.csproj": {}
+    "D:\\Ki-12-FPT\\SWD392 - Tran Cao Nguyen\\JewerlyStoreManagement\\JewerlyWeb\\JewerlyWeb.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ADMIN\\Desktop\\SWD312\\JewerlyWeb\\JewerlyWeb.csproj": {
+    "D:\\Ki-12-FPT\\SWD392 - Tran Cao Nguyen\\JewerlyStoreManagement\\JewerlyWeb\\JewerlyWeb.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ADMIN\\Desktop\\SWD312\\JewerlyWeb\\JewerlyWeb.csproj",
+        "projectUniqueName": "D:\\Ki-12-FPT\\SWD392 - Tran Cao Nguyen\\JewerlyStoreManagement\\JewerlyWeb\\JewerlyWeb.csproj",
         "projectName": "JewerlyWeb",
-        "projectPath": "C:\\Users\\ADMIN\\Desktop\\SWD312\\JewerlyWeb\\JewerlyWeb.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ADMIN\\Desktop\\SWD312\\JewerlyWeb\\obj\\",
+        "projectPath": "D:\\Ki-12-FPT\\SWD392 - Tran Cao Nguyen\\JewerlyStoreManagement\\JewerlyWeb\\JewerlyWeb.csproj",
+        "packagesPath": "C:\\Users\\KENNER\\.nuget\\packages\\",
+        "outputPath": "D:\\Ki-12-FPT\\SWD392 - Tran Cao Nguyen\\JewerlyStoreManagement\\JewerlyWeb\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\KENNER\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
