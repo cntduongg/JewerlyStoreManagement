@@ -20,6 +20,11 @@ namespace ProductsApi.Repo
                 .OrderBy(p => p.Productid)
                 .ToListAsync();
         }
+
+        public async Task<List<Category>> GetAllCategoriesAsync()
+        {
+            return await _context.Categories.ToListAsync();
+        }
     }
     }
 

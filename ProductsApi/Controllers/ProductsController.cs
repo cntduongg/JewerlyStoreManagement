@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ProductsApi.Data;
 using ProductsApi.Service.IService;
 
 namespace ProductsApi.Controllers
@@ -8,6 +10,7 @@ namespace ProductsApi.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductsService _productService;
+        private readonly AppDb _context;
 
         public ProductsController(IProductsService productService)
         {
@@ -35,6 +38,12 @@ namespace ProductsApi.Controllers
                     message = ex.Message
                 });
             }
+        }
+        [HttpGet("GetAllCategories")]
+        public async Task<IActionResult> GetAllCategories()
+        {
+            var categories = await _productService.GetAllCateAsync();
+            return Ok(categories);
         }
     }
 }

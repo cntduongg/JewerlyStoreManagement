@@ -6,6 +6,7 @@ C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\ProductsApi.deps.json
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\ProductsApi.runtimeconfig.json
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\ProductsApi.dll
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\ProductsApi.pdb
+C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\EFCore.NamingConventions.dll
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\Humanizer.dll
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\Microsoft.Build.Locator.dll
@@ -32,6 +33,8 @@ C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\Microsoft.Extensions.
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\Microsoft.OpenApi.dll
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\Mono.TextTemplating.dll
+C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\Npgsql.dll
+C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -134,7 +137,4 @@ C:\Users\ADMIN\Desktop\SWD312\ProductsApi\obj\Debug\net8.0\refint\ProductsApi.dl
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\obj\Debug\net8.0\ProductsApi.pdb
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\obj\Debug\net8.0\ProductsApi.genruntimeconfig.cache
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\obj\Debug\net8.0\ref\ProductsApi.dll
-C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\Npgsql.dll
-C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
-C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\EFCore.NamingConventions.dll

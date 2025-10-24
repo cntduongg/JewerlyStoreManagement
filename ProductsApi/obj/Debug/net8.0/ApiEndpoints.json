@@ -1,6 +1,16 @@
 [
   {
     "ContainingType": "ProductsApi.Controllers.ProductsController",
+    "Method": "GetAllCategories",
+    "RelativePath": "api/Products/GetAllCategories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProductsApi.Controllers.ProductsController",
     "Method": "GetProducts",
     "RelativePath": "api/Products/GetAllProducts",
     "HttpMethod": "GET",

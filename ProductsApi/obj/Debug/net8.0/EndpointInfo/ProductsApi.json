@@ -16,6 +16,18 @@
           }
         }
       }
+    },
+    "/api/Products/GetAllCategories": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": { }

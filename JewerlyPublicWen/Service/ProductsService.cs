@@ -1,5 +1,7 @@
-﻿using JewerlyPublicWen.Models.Dtos;
+﻿using JewerlyPublicWen.Models;
+using JewerlyPublicWen.Models.Dtos;
 using JewerlyPublicWen.Service.IService;
+using System.Net.Http;
 using System.Text.Json;
 
 namespace JewerlyPublicWen.Service
@@ -7,45 +9,45 @@ namespace JewerlyPublicWen.Service
     public class ProductsService : IProductsService
     {
         private readonly HttpClient _httpClient;
-        private readonly IConfiguration _configuration;
 
-        public ProductsService(HttpClient httpClient, IConfiguration configuration)
+        public ProductsService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _configuration = configuration;
         }
-        public  async  Task<List<ProductsDto>> GetAllProductsAsync()
+
+        public async Task<List<CategoryDto>> GetAllCategoriesAsync()
+        {
+            var response = await _httpClient.GetAsync("https://localhost:7114/api/Products/GetAllCategories");
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var categories = JsonSerializer.Deserialize<List<CategoryDto>>(content,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            return categories ?? new List<CategoryDto>();
+        }
+
+        public async Task<List<ProductsViewModel>> GetAllProductsAsync()
         {
             try
             {
-                // URL API từ BE - sử dụng localhost:7114 như trong JavaScript
-                var apiUrl = "https://localhost:7114/api/Products/GetAllProducts";
+                var response = await _httpClient.GetAsync("api/Products/GetAllProducts");
+                response.EnsureSuccessStatusCode();
 
-                var response = await _httpClient.GetAsync(apiUrl);
-
-                if (response.IsSuccessStatusCode)
+                var content = await response.Content.ReadAsStringAsync();
+                var products = JsonSerializer.Deserialize<List<ProductsViewModel>>(content, new JsonSerializerOptions
                 {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var options = new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    };
+                    PropertyNameCaseInsensitive = true
+                });
 
-                    var products = JsonSerializer.Deserialize<List<ProductsDto>>(content, options);
-                    return products ?? new List<ProductsDto>();
-                }
-
-                // Log lỗi nếu cần
-                Console.WriteLine($"API Error: {response.StatusCode}");
-                return new List<ProductsDto>();
+                return products ?? new List<ProductsViewModel>();
             }
             catch (Exception ex)
             {
-                // Log lỗi
-                Console.WriteLine($"Service Error: {ex.Message}");
-                return new List<ProductsDto>();
+                throw new Exception($"Lỗi khi gọi API: {ex.Message}", ex);
             }
         }
-    }
-    }
 
+        
+    }
+}

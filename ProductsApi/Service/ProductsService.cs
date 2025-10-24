@@ -1,4 +1,5 @@
-﻿using ProductsApi.Models.Dtos;
+﻿using ProductsApi.Models;
+using ProductsApi.Models.Dtos;
 using ProductsApi.Repo.IRepo;
 using ProductsApi.Service.IService;
 
@@ -39,6 +40,17 @@ namespace ProductsApi.Service
 
             }
             return productDtos;
+        }
+
+        public  async Task<List<Category>> GetAllCateAsync()
+        {
+            var categories = await _productRepository.GetAllAsync();
+            return categories.Select(c => new Category
+            {
+                Categoryid = c.Category.Categoryid,
+                Categoryname = c.Category.Categoryname
+            }).Distinct().ToList();
+
         }
     }
 }

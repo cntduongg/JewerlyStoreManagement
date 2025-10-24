@@ -2,10 +2,8 @@
 using JewerlyPublicWen.Service.IService;
 
 var builder = WebApplication.CreateBuilder(args);
-//add httpclient
-builder.Services.AddHttpClient();   
-//add scoped
-builder.Services.AddScoped<IProductsService, ProductsService>();
+
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -27,6 +25,7 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();   // Cho phép mọi header
     });
 });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

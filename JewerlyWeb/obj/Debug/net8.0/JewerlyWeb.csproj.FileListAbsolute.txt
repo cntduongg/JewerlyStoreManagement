@@ -26,7 +26,6 @@ C:\Users\ADMIN\Desktop\SWD312\JewerlyWeb\obj\Debug\net8.0\staticwebassets.build.
 C:\Users\ADMIN\Desktop\SWD312\JewerlyWeb\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\ADMIN\Desktop\SWD312\JewerlyWeb\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\ADMIN\Desktop\SWD312\JewerlyWeb\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\ADMIN\Desktop\SWD312\JewerlyWeb\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\ADMIN\Desktop\SWD312\JewerlyWeb\obj\Debug\net8.0\JewerlyWeb.dll
 C:\Users\ADMIN\Desktop\SWD312\JewerlyWeb\obj\Debug\net8.0\refint\JewerlyWeb.dll
 C:\Users\ADMIN\Desktop\SWD312\JewerlyWeb\obj\Debug\net8.0\JewerlyWeb.pdb
