@@ -3,11 +3,11 @@
     "Name": "New Profile",
     "Projects": [
       {
-        "Path": "JewerlyPublicWen\\JewerlyPublicWen.csproj",
+        "Path": "ProductsApi\\ProductsApi.csproj",
         "Action": "Start"
       },
       {
-        "Path": "ProductsApi\\ProductsApi.csproj",
+        "Path": "JWPublic\\JWPublic.csproj",
         "Action": "Start"
       }
     ]

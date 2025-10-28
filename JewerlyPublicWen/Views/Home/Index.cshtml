@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- Luxury Hero Section with Particles -->
+<!-- Phần Hero với hiệu ứng particles -->
 <section class="luxury-hero-section">
     <div class="particles-background" id="particles"></div>
     <div class="luxury-hero-overlay"></div>
@@ -62,7 +62,7 @@
     </div>
 </section>
 
-<!-- Luxury Filter Section -->
+<!-- Phần bộ lọc sản phẩm -->
 <section class="luxury-filter-section" id="productsSection">
     <div class="container">
         <div class="luxury-section-header" data-aos="fade-up">
@@ -99,11 +99,11 @@
     </div>
 </section>
 
-<!-- Luxury Products Carousel with Auto-Scroll -->
+<!-- Phần carousel sản phẩm với tự động cuộn -->
 <section class="luxury-carousel-section">
     <div class="container-fluid">
         <div class="luxury-carousel-container">
-            <!-- Auto-scroll indicator -->
+            <!-- Nút điều khiển tự động cuộn -->
             <div class="auto-scroll-controls">
                 <button class="auto-scroll-toggle" id="autoScrollToggle" onclick="toggleAutoScroll()">
                     <i class="fas fa-pause"></i>
@@ -111,11 +111,12 @@
                 <span class="auto-scroll-label">Tự động chuyển</span>
             </div>
 
+            <!-- Container carousel sản phẩm -->
             <div id="productsCarousel" class="luxury-carousel-wrapper">
-                <!-- PRODUCTS WILL BE LOADED HERE BY JAVASCRIPT -->
+                <!-- Sản phẩm sẽ được load bởi JavaScript -->
             </div>
 
-            <!-- Luxury Navigation -->
+            <!-- Nút điều hướng -->
             <button class="luxury-nav-btn luxury-nav-prev" onclick="scrollLuxuryProducts(-1)">
                 <i class="fas fa-chevron-left"></i>
             </button>
@@ -123,13 +124,13 @@
                 <i class="fas fa-chevron-right"></i>
             </button>
 
-            <!-- Progress Indicators -->
+            <!-- Thanh tiến trình -->
             <div class="carousel-progress" id="carouselProgress"></div>
         </div>
     </div>
 </section>
 
-<!-- Loading States -->
+<!-- Trạng thái đang tải -->
 <div id="loadingSpinner" class="luxury-loading">
     <div class="luxury-spinner">
         <div class="diamond-spinner">
@@ -139,6 +140,7 @@
     </div>
 </div>
 
+<!-- Trạng thái không có sản phẩm -->
 <div id="emptyState" class="luxury-empty-state" style="display: none;">
     <div class="empty-content">
         <i class="fas fa-gem"></i>
@@ -147,6 +149,7 @@
     </div>
 </div>
 
+<!-- Trạng thái lỗi -->
 <div id="errorState" class="luxury-error-state" style="display: none;">
     <div class="error-content">
         <i class="fas fa-exclamation-triangle"></i>
@@ -160,22 +163,24 @@
 @section Scripts {
     <script>
         // ==================================================
-        // CONFIGURATION
+        // CẤU HÌNH CHUNG
         // ==================================================
         const API_URL = 'https://localhost:7114/api/Products/GetAllProducts';
-        let autoScrollInterval = null;
-        let isAutoScrolling = true;
-        let currentProducts = [];
+        let autoScrollInterval = null; // Interval cho tự động cuộn
+        let isAutoScrolling = true; // Trạng thái tự động cuộn
+        let currentProducts = []; // Danh sách sản phẩm hiện tại
 
         // ==================================================
-        // LUXURY FUNCTIONS
+        // HÀM CHÍNH
         // ==================================================
+
+        // Hàm tải sản phẩm từ API
         async function loadProducts() {
             showLuxuryLoading();
             hideLuxuryError();
 
             try {
-                console.log('Fetching luxury collection...');
+                console.log('Đang tải bộ sưu tập...');
                 const response = await fetch(API_URL);
 
                 if (response.ok) {
@@ -184,19 +189,17 @@
                     displayLuxuryProducts(products);
                     initAutoScroll();
                 } else {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`Lỗi HTTP! Mã trạng thái: ${response.status}`);
                 }
             } catch (error) {
-                console.error('Luxury API Error:', error);
+                console.error('Lỗi API:', error);
                 showLuxuryError('Không thể tải bộ sưu tập: ' + error.message);
-                currentProducts = getMockProducts();
-                displayLuxuryProducts(currentProducts);
-                initAutoScroll();
             } finally {
                 hideLuxuryLoading();
             }
         }
 
+        // Hàm hiển thị sản phẩm trong carousel
         function displayLuxuryProducts(products) {
             const carousel = document.getElementById('productsCarousel');
             const emptyState = document.getElementById('emptyState');
@@ -216,6 +219,7 @@
             const sortedProducts = products.sort((a, b) => b.productId - a.productId);
             const displayProducts = sortedProducts.slice(0, 12);
 
+            // Tạo HTML cho từng sản phẩm
             displayProducts.forEach((product, index) => {
                 const imageUrl = getLuxuryImageUrl(product);
 
@@ -256,7 +260,6 @@
                                     <div class="price-wrapper">
                                         <div class="price">${formatCurrency(product.sellingPrice)}</div>
                                     </div>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -264,7 +267,7 @@
                 `;
                 carousel.innerHTML += productHtml;
 
-                // Create progress indicator
+                // Tạo chấm tiến trình
                 const dot = document.createElement('div');
                 dot.className = 'progress-dot';
                 if (index === 0) dot.classList.add('active');
@@ -276,8 +279,10 @@
         }
 
         // ==================================================
-        // AUTO-SCROLL FUNCTIONALITY
+        // CHỨC NĂNG TỰ ĐỘNG CUỘN
         // ==================================================
+
+        // Khởi tạo tự động cuộn
         function initAutoScroll() {
             if (autoScrollInterval) {
                 clearInterval(autoScrollInterval);
@@ -297,6 +302,7 @@
             }
         }
 
+        // Bật/tắt tự động cuộn
         function toggleAutoScroll() {
             isAutoScrolling = !isAutoScrolling;
             const toggleBtn = document.getElementById('autoScrollToggle');
@@ -312,6 +318,7 @@
             }
         }
 
+        // Cuộn sản phẩm theo hướng
         function scrollLuxuryProducts(direction) {
             const carousel = document.getElementById('productsCarousel');
             const scrollAmount = 340;
@@ -321,13 +328,14 @@
                 behavior: 'smooth'
             });
 
-            // Pause auto-scroll temporarily
+            // Tạm dừng tự động cuộn
             if (isAutoScrolling) {
                 clearInterval(autoScrollInterval);
                 setTimeout(() => initAutoScroll(), 5000);
             }
         }
 
+        // Cuộn đến sản phẩm cụ thể
         function scrollToProduct(index) {
             const carousel = document.getElementById('productsCarousel');
             const scrollAmount = index * 340;
@@ -340,6 +348,7 @@
             updateProgressDots();
         }
 
+        // Cập nhật các chấm tiến trình
         function updateProgressDots() {
             const carousel = document.getElementById('productsCarousel');
             const dots = document.querySelectorAll('.progress-dot');
@@ -359,6 +368,7 @@
             });
         }
 
+        // Cuộn đến phần sản phẩm
         function scrollToProducts() {
             document.getElementById('productsSection').scrollIntoView({
                 behavior: 'smooth'
@@ -366,8 +376,10 @@
         }
 
         // ==================================================
-        // UTILITY FUNCTIONS
+        // CÁC HÀM TIỆN ÍCH
         // ==================================================
+
+        // Lấy URL hình ảnh sản phẩm
         function getLuxuryImageUrl(product) {
             const rawImageUrl = product.mainImageUrl || product.MainImageUrl;
 
@@ -384,6 +396,7 @@
             return rawImageUrl;
         }
 
+        // Định dạng tiền tệ
         function formatCurrency(amount) {
             if (!amount && amount !== 0) return 'LIÊN HỆ';
             return new Intl.NumberFormat('vi-VN', {
@@ -392,6 +405,7 @@
             }).format(amount);
         }
 
+        // Hiển thị trọng lượng vàng
         function getGoldWeightDisplay(product) {
             const goldWeight = product.goldWeight || product.GoldWeight || product.goldweight;
             if (!goldWeight && goldWeight !== 0) return 'Vàng cao cấp';
@@ -399,49 +413,40 @@
             return `${goldWeight}g vàng`;
         }
 
+        // Hiển thị trạng thái đang tải
         function showLuxuryLoading() {
             document.getElementById('loadingSpinner').style.display = 'flex';
         }
 
+        // Ẩn trạng thái đang tải
         function hideLuxuryLoading() {
             document.getElementById('loadingSpinner').style.display = 'none';
         }
 
+        // Hiển thị thông báo lỗi
         function showLuxuryError(message) {
             document.getElementById('errorMessage').textContent = message;
             document.getElementById('errorState').style.display = 'flex';
         }
 
+        // Ẩn thông báo lỗi
         function hideLuxuryError() {
             document.getElementById('errorState').style.display = 'none';
         }
 
+        // Xem chi tiết sản phẩm
         function viewProductDetail(productId) {
-            console.log('Viewing product:', productId);
+            window.location.href = `/Products/Details/${productId}`;
         }
 
+        // Xử lý tìm kiếm
         function handleSearch() {
             const searchTerm = document.getElementById('searchInput').value;
-            console.log('Searching for:', searchTerm);
-        }
-
-        function getMockProducts() {
-            return [
-                {
-                    productId: 1,
-                    productName: "Nhẫn Vàng 18K Kim Cương",
-                    categoryName: "NHẪN CAO CẤP",
-                    sellingPrice: 18500000,
-                    goldWeight: 5.2,
-                    material: "Vàng 18K",
-                    hasGem: true,
-                    shortDescription: "Nhẫn vàng cao cấp đính kim cương tự nhiên"
-                }
-            ];
+            console.log('Tìm kiếm:', searchTerm);
         }
 
         // ==================================================
-        // PARTICLES EFFECT
+        // HIỆU ỨNG PARTICLES
         // ==================================================
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
@@ -459,13 +464,13 @@
         }
 
         // ==================================================
-        // INITIALIZATION
+        // KHỞI TẠO KHI TRANG TẢI XONG
         // ==================================================
         document.addEventListener('DOMContentLoaded', function() {
             loadProducts();
             createParticles();
 
-            // Pause auto-scroll on hover
+            // Tạm dừng tự động cuộn khi hover
             const carousel = document.getElementById('productsCarousel');
             carousel.addEventListener('mouseenter', () => {
                 if (autoScrollInterval) {
@@ -482,7 +487,9 @@
     </script>
 
     <style>
-        /* ==================== LUXURY VARIABLES ==================== */
+        /* ==================================================
+                   BIẾN CSS TOÀN CỤC
+                   ================================================== */
         :root {
             --luxury-gold: #D4AF37;
             --luxury-gold-light: #E8C547;
@@ -506,7 +513,9 @@
             overflow-x: hidden;
         }
 
-        /* ==================== PARTICLES BACKGROUND ==================== */
+        /* ==================================================
+                   HIỆU ỨNG PARTICLES
+                   ================================================== */
         .particles-background {
             position: absolute;
             top: 0;
@@ -528,21 +537,29 @@
         }
 
         @@keyframes float {
-            0%, 100% {
-                transform: translate(0, 0);
-            }
-            25% {
-                transform: translate(100px, -100px);
-            }
-            50% {
-                transform: translate(-50px, -200px);
-            }
-            75% {
-                transform: translate(-100px, -100px);
-            }
+            0%, 100%
+
+        {
+            transform: translate(0, 0);
         }
 
-        /* ==================== LUXURY HERO SECTION ==================== */
+        25% {
+            transform: translate(100px, -100px);
+        }
+
+        50% {
+            transform: translate(-50px, -200px);
+        }
+
+        75% {
+            transform: translate(-100px, -100px);
+        }
+
+        }
+
+        /* ==================================================
+                   PHẦN HERO
+                   ================================================== */
         .luxury-hero-section {
             position: relative;
             min-height: 100vh;
@@ -599,102 +616,74 @@
 
         .luxury-main {
             display: block;
-            font-size: clamp(2rem, 4vw, 3.5rem);
-            font-weight: 600;
-            background: linear-gradient(135deg, #ffffff 0%, var(--luxury-gold) 100%);
+            font-size: clamp(2.5rem, 5vw, 5rem);
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            background: linear-gradient(135deg, #ffffff 0%, var(--luxury-gold-light) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .luxury-subtitle {
-            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            font-size: clamp(1rem, 2vw, 1.2rem);
             color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 3rem;
-            max-width: 500px;
+            margin-bottom: 2.5rem;
             line-height: 1.6;
+            max-width: 600px;
         }
 
-        /* ==================== LUXURY BUTTONS ==================== */
         .luxury-cta {
             display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
+            gap: 1rem;
             margin-bottom: 3rem;
+        }
+
+        .btn-luxury-primary,
+        .btn-luxury-outline {
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
         }
 
         .btn-luxury-primary {
             background: linear-gradient(135deg, var(--luxury-gold) 0%, var(--luxury-gold-light) 100%);
             border: none;
-            padding: 1.2rem 2.5rem;
-            color: var(--luxury-dark);
-            font-weight: 700;
-            border-radius: 50px;
-            display: inline-flex;
-            align-items: center;
-            gap: 1rem;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.9rem;
-            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
-            position: relative;
-            overflow: hidden;
+            color: white;
         }
 
-        .btn-luxury-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn-luxury-primary:hover::before {
-            left: 100%;
-        }
-
-        .btn-luxury-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 50px rgba(212, 175, 55, 0.5);
-        }
+            .btn-luxury-primary:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            }
 
         .btn-luxury-outline {
             background: transparent;
             border: 2px solid var(--luxury-gold);
-            padding: 1.2rem 2.5rem;
             color: var(--luxury-gold);
-            font-weight: 700;
-            border-radius: 50px;
-            display: inline-flex;
-            align-items: center;
-            gap: 1rem;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.9rem;
         }
 
-        .btn-luxury-outline:hover {
-            background: var(--luxury-gold);
-            color: var(--luxury-dark);
-            transform: translateY(-3px);
-        }
+            .btn-luxury-outline:hover {
+                background: var(--luxury-gold);
+                color: white;
+                transform: translateY(-3px);
+            }
 
-        /* ==================== LUXURY STATS ==================== */
         .luxury-stats {
             display: flex;
             gap: 3rem;
-            flex-wrap: wrap;
         }
 
         .stat-item {
-            text-align: left;
+            text-align: center;
         }
 
         .stat-number {
@@ -711,17 +700,32 @@
             letter-spacing: 0.1em;
         }
 
-        /* ==================== FLOATING JEWELRY ==================== */
         .luxury-hero-image {
             position: relative;
             z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .floating-jewelry {
             position: relative;
-            width: 500px;
-            height: 500px;
-            margin: 0 auto;
+            width: 400px;
+            height: 400px;
+            animation: floatJewelry 6s infinite ease-in-out;
+        }
+
+        @@keyframes floatJewelry {
+            0%, 100%
+
+        {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-30px);
+        }
+
         }
 
         .jewel-glow {
@@ -729,153 +733,136 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.4) 0%, transparent 70%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 70%);
             border-radius: 50%;
-            animation: pulse 3s ease-in-out infinite;
+            animation: glowPulse 3s infinite;
         }
 
-        @@keyframes pulse {
-            0%, 100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.5;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.1);
-                opacity: 0.8;
-            }
+        @@keyframes glowPulse {
+            0%, 100%
+
+        {
+            opacity: 0.5;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        50% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
         }
 
         .jewel-floating {
             position: relative;
             width: 100%;
             height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            animation: floatJewel 6s ease-in-out infinite;
-            box-shadow: 0 30px 80px rgba(212, 175, 55, 0.4);
-            border: 3px solid rgba(212, 175, 55, 0.3);
+            object-fit: contain;
+            filter: drop-shadow(0 20px 40px rgba(212, 175, 55, 0.5));
         }
 
-        @@keyframes floatJewel {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-30px) rotate(5deg);
-            }
-        }
-
-        /* ==================== SCROLL INDICATOR ==================== */
         .luxury-scroll-indicator {
             position: absolute;
             bottom: 2rem;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--luxury-gold);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
             font-size: 0.8rem;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.1em;
+            z-index: 2;
         }
 
         .scroll-arrow {
             width: 30px;
             height: 50px;
             border: 2px solid var(--luxury-gold);
-            border-radius: 15px;
+            border-radius: 20px;
             position: relative;
+            margin: 0 auto 0.5rem;
         }
 
-        .scroll-arrow::before {
-            content: '';
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 6px;
-            height: 6px;
-            background: var(--luxury-gold);
-            border-radius: 50%;
-            animation: scrollDown 2s infinite;
-        }
-
-        @@keyframes scrollDown {
-            0% {
-                top: 8px;
-                opacity: 1;
+            .scroll-arrow::before {
+                content: '';
+                position: absolute;
+                top: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 6px;
+                height: 6px;
+                background: var(--luxury-gold);
+                border-radius: 50%;
+                animation: scrollAnimation 2s infinite;
             }
-            100% {
-                top: 32px;
-                opacity: 0;
-            }
+
+        @@keyframes scrollAnimation {
+            0%
+
+        {
+            opacity: 1;
+            transform: translate(-50%, 0);
         }
 
-        /* ==================== LUXURY FILTER SECTION ==================== */
+        100% {
+            opacity: 0;
+            transform: translate(-50%, 20px);
+        }
+
+        }
+
+        /* ==================================================
+                   PHẦN BỘ LỌC
+                   ================================================== */
         .luxury-filter-section {
-            padding: 5rem 0;
-            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
-            position: relative;
+            padding: 5rem 0 3rem;
+            background: var(--luxury-light);
         }
 
         .luxury-section-header {
             text-align: center;
-            margin-bottom: 4rem;
-            position: relative;
+            margin-bottom: 3rem;
         }
 
         .section-top-line {
-            width: 100px;
+            width: 80px;
             height: 3px;
             background: linear-gradient(90deg, transparent, var(--luxury-gold), transparent);
-            margin: 0 auto 2rem;
+            margin: 0 auto 1rem;
         }
 
         .section-title-luxury {
             font-size: clamp(2rem, 4vw, 3rem);
-            color: var(--luxury-dark);
-            margin-bottom: 1rem;
             font-weight: 700;
+            color: var(--luxury-dark);
             letter-spacing: 0.05em;
+            margin-bottom: 1rem;
         }
 
         .section-subtitle {
+            font-size: 1.1rem;
             color: #666;
-            font-size: clamp(1rem, 1.5vw, 1.2rem);
             font-weight: 300;
         }
 
         .luxury-filter-container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
         .filter-group-luxury {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
             justify-content: center;
-            align-items: center;
             flex-wrap: wrap;
         }
 
         .filter-item {
+            position: relative;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            background: white;
-            padding: 0.5rem 1rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            transition: var(--transition-smooth);
-        }
-
-        .filter-item:hover {
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
-            transform: translateY(-2px);
+            gap: 0.5rem;
         }
 
         .filter-icon {
@@ -884,63 +871,70 @@
         }
 
         .luxury-select {
-            padding: 0.8rem 1.5rem;
-            border: 2px solid transparent;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--luxury-border);
             border-radius: 10px;
             background: white;
             color: var(--luxury-dark);
-            min-width: 250px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition-smooth);
-            outline: none;
+            min-width: 250px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
-        .luxury-select:focus {
-            border-color: var(--luxury-gold);
-        }
+            .luxury-select:hover,
+            .luxury-select:focus {
+                border-color: var(--luxury-gold);
+                outline: none;
+                box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2);
+            }
 
         .luxury-search-container {
-            position: relative;
             display: flex;
-            align-items: center;
+            gap: 0.5rem;
         }
 
         .luxury-search {
-            padding: 0.8rem 3.5rem 0.8rem 1.5rem;
-            border: 2px solid transparent;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--luxury-border);
             border-radius: 10px;
-            min-width: 300px;
             background: white;
+            color: var(--luxury-dark);
             transition: var(--transition-smooth);
-            outline: none;
+            min-width: 300px;
         }
 
-        .luxury-search:focus {
-            border-color: var(--luxury-gold);
-        }
+            .luxury-search:hover,
+            .luxury-search:focus {
+                border-color: var(--luxury-gold);
+                outline: none;
+                box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2);
+            }
 
         .search-btn-luxury {
-            position: absolute;
-            right: 0.5rem;
-            background: linear-gradient(135deg, var(--luxury-gold), var(--luxury-gold-light));
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, var(--luxury-gold) 0%, var(--luxury-gold-light) 100%);
             border: none;
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
+            border-radius: 10px;
             color: white;
             cursor: pointer;
             transition: var(--transition-smooth);
         }
 
-        .search-btn-luxury:hover {
-            transform: scale(1.05);
-        }
+            .search-btn-luxury:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+            }
 
-        /* ==================== LUXURY CAROUSEL SECTION ==================== */
+        /* ==================================================
+                   PHẦN CAROUSEL SẢN PHẨM
+                   ================================================== */
         .luxury-carousel-section {
-            padding: 4rem 0 6rem;
-            background: #f8f9fa;
-            position: relative;
+            padding: 3rem 0 5rem;
+            background: var(--luxury-light);
         }
 
         .luxury-carousel-container {
@@ -951,33 +945,32 @@
         .auto-scroll-controls {
             position: absolute;
             top: -3rem;
-            right: 5rem;
+            right: 2rem;
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
             z-index: 10;
         }
 
         .auto-scroll-toggle {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            background: white;
             border: 2px solid var(--luxury-gold);
+            background: white;
             color: var(--luxury-gold);
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
             transition: var(--transition-smooth);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .auto-scroll-toggle:hover {
-            background: var(--luxury-gold);
-            color: white;
-            transform: scale(1.1);
-        }
+            .auto-scroll-toggle:hover {
+                background: var(--luxury-gold);
+                color: white;
+                transform: scale(1.1);
+            }
 
         .auto-scroll-label {
             font-size: 0.9rem;
@@ -990,45 +983,40 @@
             gap: 2rem;
             overflow-x: auto;
             scroll-behavior: smooth;
-            padding: 2rem 0 3rem;
+            padding: 2rem 0;
             scrollbar-width: none;
-            -ms-overflow-style: none;
         }
 
-        .luxury-carousel-wrapper::-webkit-scrollbar {
-            display: none;
-        }
+            .luxury-carousel-wrapper::-webkit-scrollbar {
+                display: none;
+            }
 
-        /* ==================== LUXURY PRODUCT CARD ==================== */
         .luxury-product-card {
-            flex: 0 0 auto;
-            width: 320px;
-            perspective: 1000px;
-        }
-
-        .product-card-inner {
-            position: relative;
-            width: 100%;
-            height: 550px;
-            transition: var(--transition-smooth);
-            transform-style: preserve-3d;
+            flex: 0 0 320px;
             background: white;
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: var(--transition-smooth);
         }
 
-        .luxury-product-card:hover .product-card-inner {
-            transform: translateY(-15px);
-            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.25);
+            .luxury-product-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            }
+
+        .product-card-inner {
+            display: flex;
+            flex-direction: column;
+            height: 650px;
         }
 
         .product-image-container {
             position: relative;
-            height: 280px;
+            width: 100%;
+            height: 320px;
             overflow: hidden;
-            border-radius: 20px 20px 0 0;
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
         }
 
         .product-shine {
@@ -1037,31 +1025,26 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%);
-            animation: shine 3s infinite;
-            z-index: 1;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+            opacity: 0;
         }
 
-        @@keyframes shine {
-            0% {
-                transform: translateX(-100%) translateY(-100%) rotate(45deg);
-            }
-            100% {
-                transform: translateX(100%) translateY(100%) rotate(45deg);
-            }
+        .luxury-product-card:hover .product-shine {
+            opacity: 1;
+            left: 100%;
         }
 
         .luxury-product-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: var(--transition-smooth);
-            position: relative;
-            z-index: 2;
+            transition: transform 0.6s;
         }
 
         .luxury-product-card:hover .luxury-product-image {
-            transform: scale(1.1) rotate(2deg);
+            transform: scale(1.1);
         }
 
         .product-overlay {
@@ -1070,14 +1053,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(26,26,26,0.75) 100%);
+            background: rgba(0, 0, 0, 0.6);
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            gap: 1rem;
             opacity: 0;
-            transition: var(--transition-smooth);
-            z-index: 3;
+            transition: opacity 0.4s;
         }
 
         .luxury-product-card:hover .product-overlay {
@@ -1085,200 +1068,140 @@
         }
 
         .luxury-badge-card {
+            padding: 0.5rem 1.5rem;
             background: linear-gradient(135deg, var(--luxury-gold), var(--luxury-gold-light));
-            color: var(--luxury-dark);
-            padding: 0.6rem 1.5rem;
-            border-radius: 30px;
+            color: white;
+            border-radius: 50px;
             font-size: 0.75rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
             letter-spacing: 0.1em;
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
-            animation: fadeInDown 0.5s ease;
-        }
-
-        @@keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .quick-view-btn {
-            background: transparent;
-            border: 2px solid var(--luxury-gold);
-            color: var(--luxury-gold);
-            padding: 0.8rem 2rem;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: var(--transition-smooth);
+            padding: 1rem 2rem;
+            background: white;
+            color: var(--luxury-dark);
+            border: none;
+            border-radius: 10px;
             font-weight: 700;
-            letter-spacing: 0.1em;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            animation: fadeInUp 0.5s ease 0.2s both;
+            gap: 0.5rem;
+            transition: var(--transition-smooth);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.85rem;
         }
 
-        @@keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+            .quick-view-btn:hover {
+                background: var(--luxury-gold);
+                color: white;
+                transform: translateY(-2px);
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .quick-view-btn:hover {
-            background: var(--luxury-gold);
-            color: white;
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5);
-        }
 
         .luxury-product-info {
-            padding: 1.8rem;
+            padding: 1.5rem;
+            flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
         }
 
         .product-category {
-            color: var(--luxury-gold);
             font-size: 0.75rem;
+            color: var(--luxury-gold);
             font-weight: 700;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            letter-spacing: 0.15em;
+            margin-bottom: 0.8rem;
         }
 
         .product-title {
             font-size: 1.3rem;
             font-weight: 700;
             color: var(--luxury-dark);
-            line-height: 1.3;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .product-description {
-            color: #666;
             font-size: 0.9rem;
-            line-height: 1.5;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .product-specs {
             display: flex;
             gap: 1.5rem;
-            padding: 1rem 0;
-            border-top: 1px solid rgba(0,0,0,0.05);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--luxury-light);
+            border-radius: 10px;
         }
 
         .spec-item {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
-            color: #666;
+            gap: 0.5rem;
             font-size: 0.85rem;
+            color: var(--luxury-dark);
             font-weight: 600;
         }
 
-        .spec-item i {
-            color: var(--luxury-gold);
-            font-size: 1rem;
-        }
+            .spec-item i {
+                color: var(--luxury-gold);
+            }
 
         .product-price-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             margin-top: auto;
+            padding-top: 1rem;
+            border-top: 2px solid #f0f0f0;
         }
 
         .price-wrapper {
-            display: flex;
-            flex-direction: column;
+            text-align: center;
         }
 
         .price {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 800;
-            color: var(--luxury-dark);
-            background: linear-gradient(135deg, var(--luxury-dark) 0%, var(--luxury-gold-dark) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--luxury-gold);
+            font-family: 'Arial', sans-serif;
         }
 
-        .btn-luxury-view {
-            background: linear-gradient(135deg, var(--luxury-gold), var(--luxury-gold-light));
-            color: white;
-            border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
-        }
-
-        .btn-luxury-view:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
-        }
-
-        .btn-luxury-view i {
-            transition: var(--transition-smooth);
-        }
-
-        .btn-luxury-view:hover i {
-            transform: translateX(5px);
-        }
-
-        /* ==================== LUXURY NAVIGATION ==================== */
         .luxury-nav-btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: white;
-            border: 2px solid var(--luxury-gold);
-            width: 65px;
-            height: 65px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
+            border: 2px solid var(--luxury-gold);
+            background: white;
+            color: var(--luxury-gold);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
-            color: var(--luxury-gold);
-            cursor: pointer;
-            transition: var(--transition-smooth);
             z-index: 10;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        .luxury-nav-btn:hover {
-            background: linear-gradient(135deg, var(--luxury-gold), var(--luxury-gold-light));
-            color: white;
-            transform: translateY(-50%) scale(1.15);
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
-        }
+            .luxury-nav-btn:hover {
+                background: var(--luxury-gold);
+                color: white;
+                transform: translateY(-50%) scale(1.1);
+            }
 
         .luxury-nav-prev {
             left: 1rem;
@@ -1288,7 +1211,6 @@
             right: 1rem;
         }
 
-        /* ==================== CAROUSEL PROGRESS ==================== */
         .carousel-progress {
             display: flex;
             justify-content: center;
@@ -1306,35 +1228,35 @@
             position: relative;
         }
 
-        .progress-dot::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            transition: var(--transition-smooth);
-        }
+            .progress-dot::before {
+                content: '';
+                position: absolute;
+                top: -4px;
+                left: -4px;
+                right: -4px;
+                bottom: -4px;
+                border: 2px solid transparent;
+                border-radius: 50%;
+                transition: var(--transition-smooth);
+            }
 
-        .progress-dot:hover {
-            background: var(--luxury-gold);
-            transform: scale(1.2);
-        }
+            .progress-dot:hover {
+                transform: scale(1.2);
+            }
 
-        .progress-dot.active {
-            background: var(--luxury-gold);
-            width: 30px;
-            border-radius: 10px;
-        }
+            .progress-dot.active {
+                background: var(--luxury-gold);
+                width: 30px;
+                border-radius: 10px;
+            }
 
-        .progress-dot.active::before {
-            border-color: var(--luxury-gold);
-        }
+                .progress-dot.active::before {
+                    border-color: var(--luxury-gold);
+                }
 
-        /* ==================== LUXURY LOADING ==================== */
+        /* ==================================================
+                   TRẠNG THÁI TẢI VÀ LỖI
+                   ================================================== */
         .luxury-loading {
             display: none;
             justify-content: center;
@@ -1372,21 +1294,29 @@
         }
 
         @@keyframes diamondSpin {
-            0%, 100% {
-                transform: rotate(45deg) scale(1);
-            }
-            50% {
-                transform: rotate(225deg) scale(1.2);
-            }
+            0%, 100%
+
+        {
+            transform: rotate(45deg) scale(1);
+        }
+
+        50% {
+            transform: rotate(225deg) scale(1.2);
+        }
+
         }
 
         @@keyframes diamondSpinInner {
-            0%, 100% {
-                transform: rotate(0deg);
-            }
-            50% {
-                transform: rotate(-180deg);
-            }
+            0%, 100%
+
+        {
+            transform: rotate(0deg);
+        }
+
+        50% {
+            transform: rotate(-180deg);
+        }
+
         }
 
         .luxury-spinner p {
@@ -1396,7 +1326,6 @@
             letter-spacing: 0.1em;
         }
 
-        /* ==================== LUXURY STATES ==================== */
         .luxury-empty-state,
         .luxury-error-state {
             display: none;
@@ -1443,111 +1372,122 @@
             margin-top: 1.5rem;
         }
 
-        .btn-luxury-secondary:hover {
-            background: var(--luxury-gold);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+            .btn-luxury-secondary:hover {
+                background: var(--luxury-gold);
+                color: white;
+                transform: translateY(-2px);
+                box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+            }
+
+        /* ==================================================
+                   RESPONSIVE DESIGN
+                   ================================================== */
+        @@media (max-width: 1200px) {
+            .luxury-carousel-container
+
+        {
+            padding: 0 4rem;
         }
 
-        /* ==================== RESPONSIVE DESIGN ==================== */
-        @@media (max-width: 1200px) {
-            .luxury-carousel-container {
-                padding: 0 4rem;
-            }
         }
 
         @@media (max-width: 768px) {
-            .luxury-title {
-                font-size: 2.5rem;
-            }
+            .luxury-title
 
-            .luxury-main {
-                font-size: 2rem;
-            }
+        {
+            font-size: 2.5rem;
+        }
 
-            .luxury-cta {
-                flex-direction: column;
-                gap: 1rem;
-            }
+        .luxury-main {
+            font-size: 2rem;
+        }
 
-            .btn-luxury-primary,
-            .btn-luxury-outline {
-                width: 100%;
-                justify-content: center;
-            }
+        .luxury-cta {
+            flex-direction: column;
+            gap: 1rem;
+        }
 
-            .luxury-stats {
-                gap: 1.5rem;
-            }
+        .btn-luxury-primary,
+        .btn-luxury-outline {
+            width: 100%;
+            justify-content: center;
+        }
 
-            .stat-number {
-                font-size: 2rem;
-            }
+        .luxury-stats {
+            gap: 1.5rem;
+        }
 
-            .floating-jewelry {
-                width: 300px;
-                height: 300px;
-            }
+        .stat-number {
+            font-size: 2rem;
+        }
 
-            .luxury-carousel-container {
-                padding: 0 3rem;
-            }
+        .floating-jewelry {
+            width: 300px;
+            height: 300px;
+        }
 
-            .luxury-product-card {
-                width: 280px;
-            }
+        .luxury-carousel-container {
+            padding: 0 3rem;
+        }
 
-            .product-card-inner {
-                height: 600px;
-            }
+        .luxury-product-card {
+            width: 280px;
+        }
 
-            .filter-group-luxury {
-                flex-direction: column;
-                gap: 1rem;
-            }
+        .product-card-inner {
+            height: 600px;
+        }
 
-            .filter-item {
-                width: 100%;
-            }
+        .filter-group-luxury {
+            flex-direction: column;
+            gap: 1rem;
+        }
 
-            .luxury-select,
-            .luxury-search {
-                min-width: 100%;
-            }
+        .filter-item {
+            width: 100%;
+        }
 
-            .luxury-nav-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 1rem;
-            }
+        .luxury-select,
+        .luxury-search {
+            min-width: 100%;
+        }
 
-            .luxury-nav-prev {
-                left: 0.5rem;
-            }
+        .luxury-nav-btn {
+            width: 50px;
+            height: 50px;
+            font-size: 1rem;
+        }
 
-            .luxury-nav-next {
-                right: 0.5rem;
-            }
+        .luxury-nav-prev {
+            left: 0.5rem;
+        }
 
-            .auto-scroll-controls {
-                top: -2.5rem;
-                right: 1rem;
-            }
+        .luxury-nav-next {
+            right: 0.5rem;
+        }
+
+        .auto-scroll-controls {
+            top: -2.5rem;
+            right: 1rem;
+        }
+
         }
 
         @@media (max-width: 480px) {
-            .luxury-product-card {
-                width: 260px;
-            }
+            .luxury-product-card
 
-            .section-title-luxury {
-                font-size: 1.8rem;
-            }
+        {
+            width: 260px;
+        }
 
-            .luxury-carousel-container {
-                padding: 0 2rem;
-            }
+        .section-title-luxury {
+            font-size: 1.8rem;
+        }
+
+        .luxury-carousel-container {
+            padding: 0 2rem;
+        }
+
         }
     </style>
 }

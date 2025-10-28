@@ -1,0 +1,502 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Jewelry Store</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #d4af37;
+            --primary-dark: #b8941f;
+            --secondary: #1a1a1a;
+            --text-light: #ffffff;
+            --gradient-1: linear-gradient(135deg, #d4af37 0%, #f8e5a0 100%);
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* ===== BACKGROUND ANIMATION ===== */
+        .luxury-container {
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #d4af37 0%, transparent 70%);
+            top: -200px;
+            left: -200px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #b8941f 0%, transparent 70%);
+            bottom: -150px;
+            right: -150px;
+            animation-delay: 7s;
+        }
+
+        .orb-3 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #8b7355 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 14s;
+        }
+
+        @@keyframes float {
+            0%, 100%
+
+        {
+            transform: translate(0, 0) scale(1);
+        }
+
+        33% {
+            transform: translate(100px, -100px) scale(1.1);
+        }
+
+        66% {
+            transform: translate(-100px, 100px) scale(0.9);
+        }
+
+        }
+
+        /* ===== NAVIGATION ===== */
+        .luxury-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-3d {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .logo-3d:hover {
+                transform: scale(1.05) translateY(-2px);
+                filter: drop-shadow(0 5px 15px rgba(212, 175, 55, 0.6));
+            }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+            .nav-links a {
+                color: var(--text-light);
+                text-decoration: none;
+                font-size: 0.95rem;
+                font-weight: 500;
+                letter-spacing: 1px;
+                position: relative;
+                transition: all 0.3s ease;
+            }
+
+                .nav-links a::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -5px;
+                    left: 0;
+                    width: 0;
+                    height: 2px;
+                    background: var(--gradient-1);
+                    transition: width 0.3s ease;
+                }
+
+                .nav-links a:hover {
+                    color: var(--primary);
+                    transform: translateY(-2px);
+                }
+
+                    .nav-links a:hover::after {
+                        width: 100%;
+                    }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .icon-btn {
+            width: 45px;
+            height: 45px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .icon-btn:hover {
+                background: var(--primary);
+                color: var(--secondary);
+                transform: translateY(-3px) scale(1.1);
+                box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+            }
+
+        /* ===== MAIN CONTENT ===== */
+        .luxury-main {
+            padding-top: 90px;
+            min-height: 100vh;
+        }
+
+        /* ===== FOOTER ===== */
+        .luxury-footer {
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            position: relative;
+        }
+
+            .luxury-footer::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background: var(--gradient-1);
+                opacity: 0.5;
+            }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 4rem;
+            padding: 5rem 0 3rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .footer-column h3.footer-logo {
+            font-size: 2rem;
+            font-weight: 900;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-desc {
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50%;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+            .social-icon:hover {
+                background: var(--primary);
+                border-color: var(--primary);
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+            }
+
+        .footer-title {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+            .footer-links li {
+                margin-bottom: 0.8rem;
+            }
+
+            .footer-links a {
+                color: rgba(255, 255, 255, 0.6);
+                text-decoration: none;
+                transition: all 0.3s ease;
+                display: inline-block;
+            }
+
+                .footer-links a:hover {
+                    color: var(--primary);
+                    transform: translateX(5px);
+                }
+
+        .footer-contact {
+            list-style: none;
+        }
+
+            .footer-contact li {
+                display: flex;
+                align-items: flex-start;
+                gap: 0.8rem;
+                margin-bottom: 1rem;
+                color: rgba(255, 255, 255, 0.6);
+                line-height: 1.6;
+            }
+
+        .contact-icon {
+            font-size: 1.2rem;
+            min-width: 20px;
+        }
+
+        .footer-bottom {
+            padding: 2rem 0;
+        }
+
+        .footer-bottom-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.5);
+            margin: 0;
+        }
+
+        .footer-legal {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+            .footer-legal a {
+                color: rgba(255, 255, 255, 0.5);
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+                .footer-legal a:hover {
+                    color: var(--primary);
+                }
+
+            .footer-legal span {
+                color: rgba(255, 255, 255, 0.3);
+            }
+
+        /* ===== RESPONSIVE ===== */
+        @@media (max-width: 1024px) {
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .footer-bottom-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="luxury-container">
+        <div class="bg-animation">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+
+        <nav class="luxury-nav">
+            <div class="nav-content">
+                <div class="logo-3d">JEWELRY</div>
+                <div class="nav-links">
+                    <a asp-page="/Index">Trang chủ</a>
+                    <a asp-page="/Products">Sản phẩm</a>
+                    <a asp-page="/Collections">Bộ sưu tập</a>
+                    <a asp-page="/About">Về chúng tôi</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="icon-btn">🔍</button>
+                    <button class="icon-btn">👤</button>
+                    <button class="icon-btn">🛒</button>
+                </div>
+            </div>
+        </nav>
+
+        <main class="luxury-main">
+            @RenderBody()
+        </main>
+
+        <footer class="luxury-footer">
+            <div class="footer-container">
+                <div class="footer-top">
+                    <div class="footer-column">
+                        <h3 class="footer-logo">JEWELRY</h3>
+                        <p class="footer-desc">Nơi hội tụ những tác phẩm trang sức tinh tế và sang trọng nhất. Chúng tôi tự hào mang đến những sản phẩm chất lượng cao với thiết kế độc đáo.</p>
+                        <div class="social-links">
+                            <a href="#" class="social-icon">📘</a>
+                            <a href="#" class="social-icon">📷</a>
+                            <a href="#" class="social-icon">🐦</a>
+                            <a href="#" class="social-icon">📺</a>
+                        </div>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Sản phẩm</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">Nhẫn kim cương</a></li>
+                            <li><a href="#">Dây chuyền</a></li>
+                            <li><a href="#">Vòng tay</a></li>
+                            <li><a href="#">Hoa tai</a></li>
+                            <li><a href="#">Nhẫn cưới</a></li>
+                            <li><a href="#">Trang sức nam</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Dịch vụ</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">Thiết kế riêng</a></li>
+                            <li><a href="#">Sửa chữa trang sức</a></li>
+                            <li><a href="#">Định giá kim cương</a></li>
+                            <li><a href="#">Bảo hành trọn đời</a></li>
+                            <li><a href="#">Chính sách đổi trả</a></li>
+                            <li><a href="#">Hướng dẫn bảo quản</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Liên hệ</h4>
+                        <ul class="footer-contact">
+                            <li>
+                                <span class="contact-icon">📍</span>
+                                <span>123 Đường ABC, Quận 1, TP.HCM</span>
+                            </li>
+                            <li>
+                                <span class="contact-icon">📞</span>
+                                <span>1900 xxxx</span>
+                            </li>
+                            <li>
+                                <span class="contact-icon">📧</span>
+                                <span>contact@jewelry.vn</span>
+                            </li>
+                            <li>
+                                <span class="contact-icon">🕐</span>
+                                <span>8:00 - 22:00 (Hàng ngày)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <div class="footer-bottom-content">
+                        <p>&copy; 2025 Jewelry Store. Tất cả quyền được bảo lưu.</p>
+                        <div class="footer-legal">
+                            <a href="#">Điều khoản sử dụng</a>
+                            <span>|</span>
+                            <a href="#">Chính sách bảo mật</a>
+                            <span>|</span>
+                            <a href="#">Chính sách vận chuyển</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

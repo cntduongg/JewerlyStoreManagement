@@ -1,0 +1,769 @@
+﻿@page
+@model JWPublic.Pages.IndexModel
+@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<style>
+    /* ===== HERO SECTION ===== */
+    .hero-section {
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+        gap: 4rem;
+    }
+
+    .hero-content {
+        flex: 1;
+        animation: fadeInLeft 1s ease;
+    }
+
+    .hero-label {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        background: rgba(212, 175, 55, 0.1);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 50px;
+        color: var(--primary);
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 2px;
+        margin-bottom: 2rem;
+    }
+
+    .hero-title {
+        font-size: 5rem;
+        font-weight: 900;
+        line-height: 1.1;
+        margin-bottom: 2rem;
+    }
+
+    .title-line {
+        display: block;
+        background: linear-gradient(135deg, #d4af37 0%, #f8e5a0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .hero-subtitle {
+        font-size: 1.3rem;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 3rem;
+        line-height: 1.6;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 4rem;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 1rem 2.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        letter-spacing: 1px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #d4af37 0%, #f8e5a0 100%);
+        color: #1a1a1a;
+        border: none;
+        box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+    }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6);
+        }
+
+    .btn-arrow {
+        transition: transform 0.3s ease;
+    }
+
+    .btn-primary:hover .btn-arrow {
+        transform: translateX(5px);
+    }
+
+    .btn-secondary {
+        background: transparent;
+        color: #d4af37;
+        border: 2px solid #d4af37;
+    }
+
+        .btn-secondary:hover {
+            background: #d4af37;
+            color: #1a1a1a;
+            transform: translateY(-3px) scale(1.05);
+        }
+
+    .hero-stats {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .stat-item h3 {
+        font-size: 2.5rem;
+        background: linear-gradient(135deg, #d4af37 0%, #f8e5a0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-item p {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.9rem;
+    }
+
+    .stat-divider {
+        width: 1px;
+        height: 40px;
+        background: rgba(212, 175, 55, 0.3);
+    }
+
+    .hero-image {
+        flex: 1;
+        position: relative;
+        height: 600px;
+        animation: fadeInRight 1s ease;
+    }
+
+    .hero-image-main {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .floating-card {
+        position: absolute;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(184, 148, 31, 0.1));
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+    }
+
+        .floating-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+    .hero-label img {
+        height: 30px;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+
+    .card-1 {
+        width: 300px;
+        height: 400px;
+        top: 0;
+        left: 0;
+        animation: float3D 6s infinite ease-in-out;
+    }
+
+    .card-2 {
+        width: 250px;
+        height: 350px;
+        top: 100px;
+        right: 50px;
+        animation: float3D 8s infinite ease-in-out;
+        animation-delay: 2s;
+    }
+
+    .card-3 {
+        width: 200px;
+        height: 300px;
+        bottom: 50px;
+        left: 100px;
+        animation: float3D 7s infinite ease-in-out;
+        animation-delay: 4s;
+    }
+
+    .card-shine {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        animation: shine 3s infinite;
+    }
+
+    @@keyframes float3D {
+        0%, 100% {
+            transform: translateY(0) rotateY(0deg) rotateX(0deg);
+        }
+
+        50% {
+            transform: translateY(-30px) rotateY(10deg) rotateX(5deg);
+        }
+    }
+
+    @@keyframes shine {
+        0% {
+            left: -100%;
+        }
+
+        100% {
+            left: 200%;
+        }
+    }
+
+    @@keyframes fadeInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @@keyframes fadeInRight {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* ===== SECTION COMMON ===== */
+    .section-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .section-label {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        background: rgba(212, 175, 55, 0.1);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 50px;
+        color: #d4af37;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 2px;
+        margin-bottom: 1rem;
+    }
+
+    .section-title {
+        font-size: 3rem;
+        background: linear-gradient(135deg, #d4af37 0%, #f8e5a0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+        max-width: 700px;
+        margin: 0 auto;
+        color: rgba(255, 255, 255, 0.6);
+        line-height: 1.6;
+    }
+
+    /* ===== FEATURES SECTION ===== */
+    .features-section {
+        padding: 6rem 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+
+    .feature-card {
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(26, 26, 26, 0.5));
+        padding: 3rem 2rem;
+        border-radius: 20px;
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        text-align: center;
+        transition: all 0.4s ease;
+        cursor: pointer;
+    }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(26, 26, 26, 0.6));
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+        }
+
+    .feature-icon-wrapper {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1.5rem;
+        background: rgba(212, 175, 55, 0.1);
+        border: 2px solid rgba(212, 175, 55, 0.3);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.4s ease;
+    }
+
+    .feature-card:hover .feature-icon-wrapper {
+        background: rgba(212, 175, 55, 0.2);
+        border-color: #d4af37;
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.6));
+    }
+
+    .feature-card h3 {
+        font-size: 1.3rem;
+        color: #d4af37;
+        margin-bottom: 1rem;
+    }
+
+    .feature-card p {
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.6;
+    }
+
+    /* ===== CATEGORIES SECTION ===== */
+    .categories-section {
+        padding: 6rem 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+
+    .categories-carousel {
+        display: flex;
+        gap: 2rem;
+        animation: scroll-infinite 30s linear infinite;
+        width: max-content;
+    }
+
+        .categories-carousel:hover {
+            animation-play-state: paused;
+        }
+
+    @@keyframes scroll-infinite {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    .category-card {
+        min-width: 320px;
+        border-radius: 20px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        flex-shrink: 0;
+    }
+
+        .category-card:hover {
+            transform: translateY(-10px) scale(1.05);
+        }
+
+    .category-image-wrapper {
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        margin-bottom: 1.5rem;
+    }
+
+    .category-image {
+        width: 100%;
+        height: 350px;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(184, 148, 31, 0.2));
+        border: 2px solid rgba(212, 175, 55, 0.3);
+        border-radius: 20px;
+        transition: all 0.4s ease;
+    }
+
+    .category-card:hover .category-image {
+        transform: scale(1.05);
+        box-shadow: 0 20px 40px rgba(212, 175, 55, 0.4);
+    }
+
+    .category-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 2rem;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .category-card:hover .category-overlay {
+        opacity: 1;
+    }
+
+    .category-btn {
+        padding: 0.8rem 2rem;
+        background: linear-gradient(135deg, #d4af37 0%, #f8e5a0 100%);
+        color: #1a1a1a;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: transform 0.3s ease;
+    }
+
+        .category-btn:hover {
+            transform: scale(1.05);
+        }
+
+    .category-info {
+        text-align: center;
+    }
+
+        .category-info h3 {
+            font-size: 1.3rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-info p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+    /* ===== TESTIMONIALS SECTION ===== */
+    .testimonials-section {
+        padding: 6rem 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+    }
+
+    .testimonial-card {
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(26, 26, 26, 0.5));
+        padding: 2.5rem;
+        border-radius: 20px;
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        transition: all 0.4s ease;
+    }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+            border-color: #d4af37;
+        }
+
+    .stars {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .testimonial-text {
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.8;
+        margin-bottom: 2rem;
+        font-style: italic;
+    }
+
+    .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .author-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #d4af37 0%, #f8e5a0 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+    }
+
+    .author-info h4 {
+        color: #ffffff;
+        margin-bottom: 0.3rem;
+        font-size: 1rem;
+    }
+
+    .author-info p {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.85rem;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @@media (max-width: 1024px) {
+        .hero-section {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+        }
+
+        .hero-stats {
+            justify-content: center;
+        }
+
+        .hero-buttons {
+            justify-content: center;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+
+        .hero-buttons {
+            flex-direction: column;
+        }
+
+        .hero-stats {
+            flex-wrap: wrap;
+        }
+
+        .testimonials-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="hero-section">
+    <div class="hero-content">
+        <span class="hero-label">
+            <img src="https://via.placeholder.com/100x100/d4af37/ffffff?text=LOGO" alt="Logo" />
+            LUXURY JEWELRY COLLECTION
+        </span>
+        <h1 class="hero-title">
+            <span class="title-line">Vẻ Đẹp</span>
+            <span class="title-line">Vượt Thời Gian</span>
+        </h1>
+        <p class="hero-subtitle">Khám phá bộ sưu tập trang sức cao cấp được chế tác tinh xảo từ kim cương và vàng 18K. Mỗi sản phẩm là một tác phẩm nghệ thuật độc đáo, thể hiện đẳng cấp và phong cách của bạn.</p>
+        <div class="hero-buttons">
+            <a asp-page="/Products" class="btn-primary">
+                <span>Khám phá bộ sưu tập</span>
+                <span class="btn-arrow">→</span>
+            </a>
+            <a asp-page="/About" class="btn-secondary">
+                <span>Về chúng tôi</span>
+            </a>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <h3>15+</h3>
+                <p>Năm kinh nghiệm</p>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <h3>50K+</h3>
+                <p>Khách hàng tin tưởng</p>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <h3>100%</h3>
+                <p>Kim cương tự nhiên</p>
+            </div>
+        </div>
+    </div>
+    <div class="hero-image">
+        <div class="hero-image-main">
+            <div class="floating-card card-1">
+                <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=500&fit=crop" alt="Diamond Ring" />
+                <div class="card-shine"></div>
+            </div>
+            <div class="floating-card card-2">
+                <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&h=500&fit=crop" alt="Gold Necklace" />
+                <div class="card-shine"></div>
+            </div>
+            <div class="floating-card card-3">
+                <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&h=500&fit=crop" alt="Diamond Earrings" />
+                <div class="card-shine"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="features-section">
+    <div class="section-header">
+        <span class="section-label">TẠI SAO CHỌN CHÚNG TÔI</span>
+        <h2 class="section-title">Cam Kết Chất Lượng</h2>
+    </div>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon-wrapper">
+                <div class="feature-icon">💎</div>
+            </div>
+            <h3>Kim cương tự nhiên</h3>
+            <p>100% kim cương thiên nhiên được chứng nhận bởi GIA, đảm bảo chất lượng và giá trị lâu dài</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon-wrapper">
+                <div class="feature-icon">✨</div>
+            </div>
+            <h3>Thiết kế độc quyền</h3>
+            <p>Mỗi sản phẩm là tác phẩm nghệ thuật được chế tác thủ công bởi nghệ nhân giàu kinh nghiệm</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon-wrapper">
+                <div class="feature-icon">🎁</div>
+            </div>
+            <h3>Bảo hành trọn đời</h3>
+            <p>Cam kết bảo hành chất lượng vàng và đá quý trọn đời, miễn phí vệ sinh và kiểm tra định kỳ</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon-wrapper">
+                <div class="feature-icon">🚚</div>
+            </div>
+            <h3>Giao hàng an toàn</h3>
+            <p>Miễn phí vận chuyển toàn quốc với bảo hiểm 100% giá trị sản phẩm</p>
+        </div>
+    </div>
+</section>
+
+<section class="categories-section">
+    <div class="section-header">
+        <span class="section-label">SẢN PHẨM MỚI NHẤT</span>
+        <h2 class="section-title">Bộ Sưu Tập Mới</h2>
+        <p class="section-subtitle">20 sản phẩm mới nhất được cập nhật liên tục</p>
+    </div>
+    <div class="categories-carousel">
+        @if (Model.Products != null && Model.Products.Any())
+        {
+            <!-- First set -->
+            @foreach (var product in Model.Products)
+            {
+                <div class="category-card">
+                    <div class="category-image-wrapper">
+                        @if (!string.IsNullOrEmpty(product.Mainimageurl))
+                        {
+                            <img src="@product.Mainimageurl" alt="@product.Productname" style="width:100%; height:350px; object-fit:cover; border-radius: 20px;" />
+                        }
+                        else
+                        {
+                            <div class="category-image"></div>
+                        }
+                        <div class="category-overlay">
+                            <a asp-page="/Products" asp-route-id="@product.Productid" class="category-btn">Xem chi tiết →</a>
+                        </div>
+                    </div>
+                    <div class="category-info">
+                        <h3>@product.Productname</h3>
+                        <p>@product.Sellingprice.ToString("N0") VNĐ</p>
+                    </div>
+                </div>
+            }
+
+            <!-- Duplicate set for infinite scroll -->
+            @foreach (var product in Model.Products)
+            {
+                <div class="category-card">
+                    <div class="category-image-wrapper">
+                        @if (!string.IsNullOrEmpty(product.Mainimageurl))
+                        {
+                            <img src="@product.Mainimageurl" alt="@product.Productname" style="width:100%; height:350px; object-fit:cover; border-radius: 20px;" />
+                        }
+                        else
+                        {
+                            <div class="category-image"></div>
+                        }
+                        <div class="category-overlay">
+                            <a asp-page="/Products" asp-route-id="@product.Productid" class="category-btn">Xem chi tiết →</a>
+                        </div>
+                    </div>
+                    <div class="category-info">
+                        <h3>@product.Productname</h3>
+                        <p>@product.Sellingprice.ToString("N0") VNĐ</p>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div style="text-align: center; padding: 4rem; color: rgba(255,255,255,0.6);">
+                <p>Không có sản phẩm để hiển thị</p>
+            </div>
+        }
+    </div>
+</section>
+
+<section class="testimonials-section">
+    <div class="section-header">
+        <span class="section-label">ĐÁNH GIÁ KHÁCH HÀNG</span>
+        <h2 class="section-title">Khách Hàng Nói Gì Về Chúng Tôi</h2>
+    </div>
+    <div class="testimonials-grid">
+        <div class="testimonial-card">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p class="testimonial-text">"Chất lượng sản phẩm tuyệt vời, thiết kế sang trọng và dịch vụ khách hàng chu đáo. Tôi rất hài lòng với chiếc nhẫn kim cương của mình."</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">N</div>
+                <div class="author-info">
+                    <h4>Nguyễn Minh Anh</h4>
+                    <p>Khách hàng thân thiết</p>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p class="testimonial-text">"Đây là nơi tôi tin tưởng để mua trang sức cao cấp. Sản phẩm đẹp, giá cả hợp lý và chính sách bảo hành rất tốt."</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">T</div>
+                <div class="author-info">
+                    <h4>Trần Văn Nam</h4>
+                    <p>Doanh nhân</p>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p class="testimonial-text">"Tôi đã mua nhẫn cưới ở đây và cực kỳ hài lòng. Thiết kế độc đáo, chất lượng kim cương tuyệt hảo. Rất đáng để đầu tư."</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">L</div>
+                <div class="author-info">
+                    <h4>Lê Thu Hà</h4>
+                    <p>Kiến trúc sư</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

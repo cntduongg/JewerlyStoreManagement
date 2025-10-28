@@ -3,11 +3,8 @@
     ViewBag.Title = "Tất Cả Sản Phẩm";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div style="background: yellow;">
-    Type: @ViewBag.Categories?.GetType().Name
-    Count: @ViewBag.Categories?.Count
-</div>
-<!-- Enhanced Luxury Header with Parallax -->
+
+<!-- Header trang sản phẩm với hiệu ứng Parallax -->
 <section class="luxury-products-header-enhanced">
     <div class="parallax-background"></div>
     <div class="floating-particles"></div>
@@ -35,7 +32,7 @@
     </div>
 </section>
 
-<!-- Enhanced Luxury Filter & Sort Section with Glassmorphism -->
+<!-- Phần bộ lọc và sắp xếp sản phẩm -->
 <section class="luxury-controls-section-enhanced">
     <div class="container">
         <div class="glass-control-panel" data-aos="fade-up">
@@ -47,22 +44,20 @@
             </div>
 
             <div class="luxury-controls-grid-enhanced">
-                <!-- Category Filter with Animation -->
+                <!-- Bộ lọc danh mục -->
                 <div class="control-group-enhanced">
                     <label class="control-label">
                         <i class="fas fa-layer-group"></i>
                         DANH MỤC
                     </label>
                     <div class="filter-item-enhanced">
-                        <select id="categoryFilter" class="luxury-select-enhanced">
+                        <select id="categoryFilter" class="luxury-select-enhanced" onchange="filterProducts()">
                             <option value="">Tất Cả Danh Mục</option>
-                            @if (ViewBag.Categories != null) 
-                            {
-                            @foreach (var cat in ViewBag.Categories)
-                                                        {
-                            <option value="@cat.CategoryId">@cat.CategoryName</option>
-                                                        }
-                            }
+                            <option value="1">Nhẫn</option>
+                            <option value="2">Dây chuyền</option>
+                            <option value="3">Vòng tay</option>
+                            <option value="4">Bông tai</option>
+                            <option value="5">Mặt dây</option>
                         </select>
                         <div class="select-arrow">
                             <i class="fas fa-chevron-down"></i>
@@ -70,7 +65,7 @@
                     </div>
                 </div>
 
-                <!-- Sort Filter with Animation -->
+                <!-- Bộ lọc sắp xếp -->
                 <div class="control-group-enhanced">
                     <label class="control-label">
                         <i class="fas fa-sort-amount-down"></i>
@@ -90,7 +85,7 @@
                     </div>
                 </div>
 
-                <!-- Enhanced Search -->
+                <!-- Ô tìm kiếm -->
                 <div class="control-group-enhanced search-group-full">
                     <label class="control-label">
                         <i class="fas fa-search"></i>
@@ -107,7 +102,7 @@
                 </div>
             </div>
 
-            <!-- Enhanced Results Info -->
+            <!-- Hiển thị số lượng kết quả tìm kiếm -->
             <div class="results-info-enhanced" id="resultsInfo">
                 <div class="results-badge">
                     <i class="fas fa-check-circle"></i>
@@ -118,10 +113,10 @@
     </div>
 </section>
 
-<!-- Enhanced Luxury Products Grid Section -->
+<!-- Phần hiển thị danh sách sản phẩm -->
 <section class="luxury-products-grid-section-enhanced">
     <div class="container">
-        <!-- Loading State with Diamond Animation -->
+        <!-- Trạng thái đang tải -->
         <div id="loadingSpinner" class="luxury-loading-enhanced">
             <div class="luxury-spinner-enhanced">
                 <div class="diamond-spinner-3d">
@@ -139,12 +134,12 @@
             </div>
         </div>
 
-        <!-- Enhanced Products Grid -->
+        <!-- Grid hiển thị sản phẩm -->
         <div id="productsGrid" class="luxury-products-grid-enhanced">
-            <!-- Products will be loaded here -->
+            <!-- Sản phẩm sẽ được load vào đây -->
         </div>
 
-        <!-- Enhanced Empty State -->
+        <!-- Trạng thái không có sản phẩm -->
         <div id="emptyState" class="luxury-empty-state-enhanced" style="display: none;">
             <div class="empty-content-enhanced">
                 <div class="empty-icon-container">
@@ -160,7 +155,7 @@
             </div>
         </div>
 
-        <!-- Enhanced Error State -->
+        <!-- Trạng thái lỗi -->
         <div id="errorState" class="luxury-error-state-enhanced" style="display: none;">
             <div class="error-content-enhanced">
                 <div class="error-icon-container">
@@ -175,7 +170,7 @@
             </div>
         </div>
 
-        <!-- Enhanced Pagination -->
+        <!-- Phân trang -->
         <div id="pagination" class="luxury-pagination-enhanced" style="display: none;"></div>
     </div>
 </section>
@@ -183,12 +178,12 @@
 @section Scripts {
     <script>
         // ==================================================
-        // CONFIGURATION
+        // CẤU HÌNH CHUNG
         // ==================================================
         const API_URL = 'https://localhost:7114/api/Products/GetAllProducts';
-        let allProducts = [];
-        let currentPage = 1;
-        const productsPerPage = 12;
+        let allProducts = []; // Lưu tất cả sản phẩm từ API
+        let currentPage = 1; // Trang hiện tại
+        const productsPerPage = 12; // Số sản phẩm mỗi trang
         let currentFilters = {
             category: '',
             search: '',
@@ -196,15 +191,17 @@
         };
 
         // ==================================================
-        // MAIN FUNCTIONS
+        // HÀM CHÍNH
         // ==================================================
+
+        // Hàm tải sản phẩm từ API
         async function loadProducts() {
             showLuxuryLoading();
             hideLuxuryError();
             hideEmptyState();
 
             try {
-                console.log('Loading all products...');
+                console.log('Đang tải sản phẩm...');
                 const response = await fetch(API_URL);
 
                 if (response.ok) {
@@ -212,30 +209,28 @@
                     allProducts = products;
                     applyFiltersAndDisplay();
                 } else {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`Lỗi HTTP! Mã trạng thái: ${response.status}`);
                 }
             } catch (error) {
-                console.error('Products API Error:', error);
+                console.error('Lỗi khi tải sản phẩm:', error);
                 showLuxuryError('Không thể tải sản phẩm: ' + error.message);
-                // Fallback to mock data
-                allProducts = getMockProducts();
-                applyFiltersAndDisplay();
             } finally {
                 hideLuxuryLoading();
             }
         }
 
+        // Hàm áp dụng bộ lọc và hiển thị sản phẩm
         function applyFiltersAndDisplay() {
             let filteredProducts = [...allProducts];
 
-            // Apply category filter
+            // Lọc theo danh mục
             if (currentFilters.category) {
                 filteredProducts = filteredProducts.filter(product =>
                     product.categoryId == currentFilters.category
                 );
             }
 
-            // Apply search filter
+            // Lọc theo từ khóa tìm kiếm
             if (currentFilters.search) {
                 const searchTerm = currentFilters.search.toLowerCase();
                 filteredProducts = filteredProducts.filter(product =>
@@ -245,17 +240,18 @@
                 );
             }
 
-            // Apply sorting
+            // Áp dụng sắp xếp
             filteredProducts = sortProductsList(filteredProducts, currentFilters.sort);
 
-            // Update results count with animation
+            // Cập nhật số lượng kết quả
             updateResultsCount(filteredProducts.length);
 
-            // Display products
+            // Hiển thị sản phẩm
             displayProductsGrid(filteredProducts);
             setupPagination(filteredProducts);
         }
 
+        // Hàm hiển thị danh sách sản phẩm
         function displayProductsGrid(products) {
             const grid = document.getElementById('productsGrid');
             const emptyState = document.getElementById('emptyState');
@@ -272,11 +268,12 @@
             grid.style.display = 'grid';
             emptyState.style.display = 'none';
 
-            // Calculate pagination
+            // Tính toán phân trang
             const startIndex = (currentPage - 1) * productsPerPage;
             const endIndex = startIndex + productsPerPage;
             const paginatedProducts = products.slice(startIndex, endIndex);
 
+            // Tạo HTML cho từng sản phẩm
             paginatedProducts.forEach((product, index) => {
                 const imageUrl = getLuxuryImageUrl(product);
                 const animationDelay = (index % 12) * 50;
@@ -344,12 +341,13 @@
                 grid.innerHTML += productHtml;
             });
 
-            // Re-init AOS for new elements
+            // Khởi tạo lại AOS cho các phần tử mới
             if (typeof AOS !== 'undefined') {
                 AOS.refresh();
             }
         }
 
+        // Hàm thiết lập phân trang
         function setupPagination(products) {
             const totalPages = Math.ceil(products.length / productsPerPage);
             const pagination = document.getElementById('pagination');
@@ -362,7 +360,7 @@
             pagination.style.display = 'flex';
             pagination.innerHTML = '';
 
-            // Previous button
+            // Nút Previous
             const prevBtn = document.createElement('button');
             prevBtn.className = 'pagination-btn-enhanced';
             prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
@@ -376,7 +374,7 @@
             };
             pagination.appendChild(prevBtn);
 
-            // Page numbers with smart ellipsis
+            // Hiển thị số trang
             const maxVisiblePages = 5;
             let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
@@ -385,7 +383,7 @@
                 startPage = Math.max(1, endPage - maxVisiblePages + 1);
             }
 
-            // First page
+            // Trang đầu
             if (startPage > 1) {
                 const firstBtn = createPageButton(1);
                 pagination.appendChild(firstBtn);
@@ -397,13 +395,13 @@
                 }
             }
 
-            // Page buttons
+            // Các nút trang
             for (let i = startPage; i <= endPage; i++) {
                 const pageBtn = createPageButton(i);
                 pagination.appendChild(pageBtn);
             }
 
-            // Last page
+            // Trang cuối
             if (endPage < totalPages) {
                 if (endPage < totalPages - 1) {
                     const ellipsis = document.createElement('span');
@@ -415,7 +413,7 @@
                 pagination.appendChild(lastBtn);
             }
 
-            // Next button
+            // Nút Next
             const nextBtn = document.createElement('button');
             nextBtn.className = 'pagination-btn-enhanced';
             nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
@@ -430,6 +428,7 @@
             pagination.appendChild(nextBtn);
         }
 
+        // Hàm tạo nút trang
         function createPageButton(pageNum) {
             const btn = document.createElement('button');
             btn.className = `pagination-btn-enhanced ${pageNum === currentPage ? 'active' : ''}`;
@@ -442,32 +441,38 @@
             return btn;
         }
 
+        // Hàm cuộn lên đầu trang
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // ==================================================
-        // FILTER & SORT FUNCTIONS
+        // CÁC HÀM LỌC VÀ SẮP XẾP
         // ==================================================
+
+        // Hàm lọc sản phẩm theo danh mục
         function filterProducts() {
-                const categoryId = document.getElementById('categoryFilter').value;
-        currentFilters.category = categoryId;
-        currentPage = 1;
-        applyFiltersAndDisplay();
+            const categoryId = document.getElementById('categoryFilter').value;
+            currentFilters.category = categoryId;
+            currentPage = 1;
+            applyFiltersAndDisplay();
         }
 
+        // Hàm sắp xếp sản phẩm
         function sortProducts() {
             currentFilters.sort = document.getElementById('sortFilter').value;
             currentPage = 1;
             applyFiltersAndDisplay();
         }
 
+        // Hàm xử lý tìm kiếm
         function handleSearch() {
             currentFilters.search = document.getElementById('searchInput').value.trim();
             currentPage = 1;
             applyFiltersAndDisplay();
         }
 
+        // Hàm xóa tất cả bộ lọc
         function clearFilters() {
             currentFilters = { category: '', search: '', sort: 'newest' };
             document.getElementById('categoryFilter').value = '';
@@ -477,6 +482,7 @@
             applyFiltersAndDisplay();
         }
 
+        // Hàm sắp xếp danh sách sản phẩm theo tiêu chí
         function sortProductsList(products, sortType) {
             const sorted = [...products];
 
@@ -484,9 +490,9 @@
                 case 'newest':
                     return sorted.sort((a, b) => b.productId - a.productId);
                 case 'price_asc':
-                    return sorted.sort((a, b) => (a.productPrice || 0) - (b.productPrice || 0));
+                    return sorted.sort((a, b) => (a.sellingPrice || 0) - (b.sellingPrice || 0));
                 case 'price_desc':
-                    return sorted.sort((a, b) => (b.productPrice || 0) - (a.productPrice || 0));
+                    return sorted.sort((a, b) => (b.sellingPrice || 0) - (a.sellingPrice || 0));
                 case 'name_asc':
                     return sorted.sort((a, b) => a.productName.localeCompare(b.productName));
                 case 'name_desc':
@@ -497,11 +503,14 @@
         }
 
         // ==================================================
-        // UTILITY FUNCTIONS
+        // CÁC HÀM TIỆN ÍCH
         // ==================================================
-               function getLuxuryImageUrl(product) {
+
+        // Hàm lấy URL hình ảnh sản phẩm
+        function getLuxuryImageUrl(product) {
             const rawImageUrl = product.mainImageUrl || product.MainImageUrl;
 
+            // Nếu không có URL hoặc URL không hợp lệ, sử dụng ảnh mặc định
             if (!rawImageUrl || rawImageUrl.includes('img00') || !rawImageUrl.startsWith('http')) {
                 const luxuryImages = {
                     1: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=400&fit=crop',
@@ -515,6 +524,7 @@
             return rawImageUrl;
         }
 
+        // Hàm lấy icon cho danh mục
         function getCategoryIcon(categoryId) {
             const icons = {
                 1: '💍',
@@ -526,21 +536,24 @@
             return icons[categoryId] || '✨';
         }
 
-                function formatPrice(price) {
-            // Luôn hiển thị giá, nếu không có thì hiển thị 0
+        // Hàm định dạng giá tiền
+        function formatPrice(price) {
             const priceValue = price || 0;
             return priceValue.toLocaleString('vi-VN') + ' ₫';
         }
+
+        // Hàm chuyển đến trang chi tiết sản phẩm
         function viewProductDetail(productId) {
             window.location.href = `/Products/Details/${productId}`;
         }
 
+        // Hàm cập nhật số lượng kết quả tìm kiếm
         function updateResultsCount(count) {
             const countElement = document.getElementById('productCount');
             const resultsInfo = document.getElementById('resultsInfo');
 
             if (countElement) {
-                // Animate count
+                // Hiệu ứng animation cho số lượng
                 countElement.style.transform = 'scale(1.2)';
                 setTimeout(() => {
                     countElement.textContent = count;
@@ -552,17 +565,21 @@
         }
 
         // ==================================================
-        // LOADING & ERROR STATES
+        // CÁC HÀM HIỂN THỊ TRẠNG THÁI
         // ==================================================
+
+        // Hiển thị trạng thái đang tải
         function showLuxuryLoading() {
             document.getElementById('loadingSpinner').style.display = 'flex';
             document.getElementById('productsGrid').style.display = 'none';
         }
 
+        // Ẩn trạng thái đang tải
         function hideLuxuryLoading() {
             document.getElementById('loadingSpinner').style.display = 'none';
         }
 
+        // Hiển thị trạng thái lỗi
         function showLuxuryError(message) {
             const errorState = document.getElementById('errorState');
             const errorMessage = document.getElementById('errorMessage');
@@ -570,36 +587,18 @@
             errorState.style.display = 'flex';
         }
 
+        // Ẩn trạng thái lỗi
         function hideLuxuryError() {
             document.getElementById('errorState').style.display = 'none';
         }
 
+        // Ẩn trạng thái không có sản phẩm
         function hideEmptyState() {
             document.getElementById('emptyState').style.display = 'none';
         }
 
         // ==================================================
-        // MOCK DATA
-        // ==================================================
-        function getMockProducts() {
-            return [
-                {
-                    productId: 1,
-                    productName: 'Nhẫn Kim Cương Vĩnh Cửu',
-                    categoryId: 1,
-                    categoryName: 'Nhẫn Cao Cấp',
-                    productPrice: 45000000,
-                    goldWeight: 5.2,
-                    gemWeight: 1.5,
-                    hasGem: true,
-                    shortDescription: 'Nhẫn kim cương thiết kế tinh xảo, tượng trưng cho tình yêu vĩnh cửu',
-                    imageUrl: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=500&h=500&fit=crop'
-                }
-            ];
-        }
-
-        // ==================================================
-        // PARALLAX EFFECT
+        // HIỆU ỨNG PARALLAX
         // ==================================================
         window.addEventListener('scroll', () => {
             const parallax = document.querySelector('.parallax-background');
@@ -610,12 +609,12 @@
         });
 
         // ==================================================
-        // INITIALIZATION
+        // KHỞI TẠO KHI TRANG TẢI XONG
         // ==================================================
         document.addEventListener('DOMContentLoaded', () => {
             loadProducts();
 
-            // Initialize AOS
+            // Khởi tạo AOS animation
             if (typeof AOS !== 'undefined') {
                 AOS.init({
                     duration: 800,
@@ -629,7 +628,7 @@
 
     <style>
         /* ==================================================
-                   ENHANCED LUXURY STYLES
+                   BIẾN CSS TOÀN CỤC
                    ================================================== */
 
         :root {
@@ -643,7 +642,10 @@
             --shadow-soft: 0 10px 40px rgba(0,0,0,0.08);
         }
 
-        /* Enhanced Header Section */
+        /* ==================================================
+                   PHẦN HEADER
+                   ================================================== */
+
         .luxury-products-header-enhanced {
             position: relative;
             min-height: 60vh;
@@ -795,9 +797,75 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .enhanced-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
             letter-spacing: 0.1em;
-            animation: fadeInUp 1s ease-out 0.2s both;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+            .enhanced-subtitle i {
+                color: var(--luxury-gold);
+                font-size: 0.9rem;
+                animation: pulse 2s infinite;
+            }
+
+        .scroll-hint {
+            margin-top: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .scroll-mouse {
+            width: 26px;
+            height: 40px;
+            border: 2px solid var(--luxury-gold);
+            border-radius: 20px;
+            position: relative;
+        }
+
+            .scroll-mouse::before {
+                content: '';
+                position: absolute;
+                top: 8px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 4px;
+                height: 8px;
+                background: var(--luxury-gold);
+                border-radius: 2px;
+                animation: scrollDown 2s infinite;
+            }
+
+        @@keyframes scrollDown {
+            0%
+
+        {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+
+        100% {
+            opacity: 0;
+            transform: translate(-50%, 15px);
+        }
+
         }
 
         @@keyframes fadeInDown {
@@ -830,21 +898,6 @@
 
         }
 
-        .enhanced-subtitle {
-            font-size: 1.2rem;
-            color: rgba(255,255,255,0.8);
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            line-height: 1.8;
-            animation: fadeIn 1s ease-out 0.4s both;
-        }
-
-            .enhanced-subtitle i {
-                color: var(--luxury-gold);
-                margin: 0 0.5rem;
-                animation: pulse 2s infinite;
-            }
-
         @@keyframes fadeIn {
             from
 
@@ -873,66 +926,22 @@
 
         }
 
-        .scroll-hint {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-            color: rgba(255,255,255,0.6);
-            font-size: 0.9rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
+        /* ==================================================
+                   PHẦN BỘ LỌC VÀ SẮP XẾP
+                   ================================================== */
 
-        .scroll-mouse {
-            width: 30px;
-            height: 50px;
-            border: 2px solid rgba(212, 175, 55, 0.5);
-            border-radius: 20px;
-            position: relative;
-        }
-
-            .scroll-mouse::before {
-                content: '';
-                position: absolute;
-                top: 8px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 4px;
-                height: 8px;
-                background: var(--luxury-gold);
-                border-radius: 2px;
-                animation: scrollDown 2s infinite;
-            }
-
-        @@keyframes scrollDown {
-            0%, 100%
-
-        {
-            top: 8px;
-            opacity: 1;
-        }
-
-        50% {
-            top: 20px;
-            opacity: 0.5;
-        }
-
-        }
-
-        /* Enhanced Controls Section with Glassmorphism */
         .luxury-controls-section-enhanced {
             padding: 3rem 0;
-            background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+            background: #f8f9fa;
         }
 
         .glass-control-panel {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 30px;
-            padding: 2.5rem;
+            border-radius: 25px;
+            padding: 2rem;
             box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(212, 175, 55, 0.2);
         }
 
         .control-panel-header {
@@ -945,7 +954,7 @@
         }
 
             .control-panel-header h3 {
-                font-size: 1.3rem;
+                font-size: 1.5rem;
                 font-weight: 700;
                 color: var(--luxury-dark);
                 display: flex;
@@ -954,35 +963,37 @@
                 margin: 0;
             }
 
-            .control-panel-header i {
-                color: var(--luxury-gold);
-            }
+                .control-panel-header h3 i {
+                    color: var(--luxury-gold);
+                }
 
         .filter-toggle-btn {
-            padding: 0.8rem 1.5rem;
-            background: transparent;
-            border: 2px solid var(--luxury-gold);
-            border-radius: 15px;
-            color: var(--luxury-gold);
-            font-weight: 700;
+            padding: 0.7rem 1.5rem;
+            background: linear-gradient(135deg, var(--luxury-gold), var(--luxury-gold-light));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
             cursor: pointer;
-            transition: var(--transition-smooth);
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            transition: var(--transition-smooth);
         }
 
             .filter-toggle-btn:hover {
-                background: var(--luxury-gold);
-                color: white;
                 transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+                box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
             }
 
         .luxury-controls-grid-enhanced {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
+        }
+
+        .search-group-full {
+            grid-column: 1 / -1;
         }
 
         .control-group-enhanced {
@@ -991,16 +1002,11 @@
             gap: 0.8rem;
         }
 
-        .search-group-full {
-            grid-column: 1 / -1;
-        }
-
         .control-label {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 700;
             color: var(--luxury-dark);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.05em;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -1016,13 +1022,13 @@
 
         .luxury-select-enhanced {
             width: 100%;
-            padding: 1rem 3rem 1rem 1.5rem;
-            background: white;
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 15px;
+            padding: 1rem 3rem 1rem 1.2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 500;
             color: var(--luxury-dark);
+            background: white;
             cursor: pointer;
             transition: var(--transition-smooth);
             appearance: none;
@@ -1030,7 +1036,6 @@
 
             .luxury-select-enhanced:hover {
                 border-color: var(--luxury-gold);
-                box-shadow: 0 5px 20px rgba(212, 175, 55, 0.15);
             }
 
             .luxury-select-enhanced:focus {
@@ -1041,34 +1046,30 @@
 
         .select-arrow {
             position: absolute;
-            right: 1.2rem;
+            right: 1rem;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--luxury-gold);
             pointer-events: none;
-            font-size: 0.9rem;
+            color: var(--luxury-gold);
         }
 
         .luxury-search-container-enhanced {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
 
         .luxury-search-enhanced {
             flex: 1;
-            padding: 1rem 1.5rem;
-            background: white;
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 15px;
+            padding: 1rem 1.2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
             font-size: 1rem;
-            font-weight: 500;
             color: var(--luxury-dark);
             transition: var(--transition-smooth);
         }
 
             .luxury-search-enhanced:hover {
                 border-color: var(--luxury-gold);
-                box-shadow: 0 5px 20px rgba(212, 175, 55, 0.15);
             }
 
             .luxury-search-enhanced:focus {
@@ -1077,364 +1078,106 @@
                 box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
             }
 
-            .luxury-search-enhanced::placeholder {
-                color: #999;
-            }
-
         .search-btn-enhanced {
             padding: 1rem 2rem;
             background: linear-gradient(135deg, var(--luxury-gold), var(--luxury-gold-light));
             border: none;
-            border-radius: 15px;
+            border-radius: 12px;
             color: white;
-            font-weight: 700;
+            font-weight: 600;
             cursor: pointer;
-            transition: var(--transition-smooth);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            white-space: nowrap;
+            gap: 0.6rem;
+            transition: var(--transition-smooth);
         }
 
             .search-btn-enhanced:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+                box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
             }
 
         .results-info-enhanced {
-            margin-top: 2rem;
+            margin-top: 1.5rem;
             text-align: center;
-            display: none;
         }
 
         .results-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.8rem;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, rgba(34, 193, 195, 0.1), rgba(45, 253, 157, 0.1));
-            border: 2px solid rgba(34, 193, 195, 0.3);
+            gap: 0.6rem;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(244, 208, 63, 0.1));
+            border: 2px solid var(--luxury-gold);
             border-radius: 50px;
-            color: #00796b;
-            font-weight: 700;
-            font-size: 1rem;
+            color: var(--luxury-dark);
+            font-weight: 600;
         }
 
             .results-badge i {
-                font-size: 1.2rem;
-                color: #00c853;
+                color: var(--luxury-gold);
             }
 
             .results-badge span {
-                font-size: 1.3rem;
                 color: var(--luxury-gold);
-                transition: var(--transition-smooth);
+                font-weight: 700;
+                font-size: 1.1rem;
             }
 
-        /* Enhanced Products Grid */
+        /* ==================================================
+                   PHẦN HIỂN THỊ SẢN PHẨM
+                   ================================================== */
+
         .luxury-products-grid-section-enhanced {
-            padding: 4rem 0 6rem;
-            background: #f8f9fa;
-            min-height: 60vh;
-        }
-
-        .luxury-products-grid-enhanced {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin: 3rem 0;
-        }
-
-        .luxury-product-card-enhanced {
-            perspective: 1500px;
-        }
-
-        .product-card-inner-enhanced {
-            position: relative;
-            width: 100%;
-            min-height: 580px;
+            padding: 4rem 0;
             background: white;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: var(--shadow-soft);
-            transition: var(--transition-smooth);
-            transform-style: preserve-3d;
         }
 
-        .luxury-product-card-enhanced:hover .product-card-inner-enhanced {
-            transform: translateY(-15px) rotateX(2deg);
-            box-shadow: var(--shadow-elevated);
-        }
-
-        .product-badge-corner {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            padding: 0.6rem 1.2rem;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            z-index: 10;
-            backdrop-filter: blur(10px);
-        }
-
-            .product-badge-corner.has-gem {
-                background: linear-gradient(135deg, rgba(212, 175, 55, 0.95), rgba(244, 208, 63, 0.95));
-                color: white;
-                box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-            }
-
-            .product-badge-corner.no-gem {
-                background: rgba(0, 0, 0, 0.7);
-                color: white;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            }
-
-        .product-image-container-enhanced {
-            position: relative;
-            height: 280px;
-            overflow: hidden;
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-        }
-
-        .image-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 150%;
-            height: 150%;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
-            opacity: 0;
-            transition: var(--transition-smooth);
-        }
-
-        .luxury-product-card-enhanced:hover .image-glow {
-            opacity: 1;
-            animation: glowPulse 2s infinite;
-        }
-
-        @@keyframes glowPulse {
-            0%, 100%
-
-        {
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        50% {
-            transform: translate(-50%, -50%) scale(1.1);
-        }
-
-        }
-
-        .luxury-product-image-enhanced {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition-smooth);
-        }
-
-        .luxury-product-card-enhanced:hover .luxury-product-image-enhanced {
-            transform: scale(1.1) rotate(2deg);
-        }
-
-        .product-overlay-enhanced {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(45, 45, 45, 0.9));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: var(--transition-smooth);
-        }
-
-        .luxury-product-card-enhanced:hover .product-overlay-enhanced {
-            opacity: 1;
-        }
-
-        .quick-view-btn-enhanced {
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--luxury-gold), var(--luxury-gold-light));
-            border: none;
-            border-radius: 15px;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 1rem;
-            transition: var(--transition-smooth);
-            transform: translateY(20px);
-        }
-
-        .luxury-product-card-enhanced:hover .quick-view-btn-enhanced {
-            transform: translateY(0);
-        }
-
-        .quick-view-btn-enhanced:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
-        }
-
-        .product-info-enhanced {
-            padding: 1.8rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .product-category-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(244, 208, 63, 0.1));
-            border-radius: 50px;
-            color: var(--luxury-gold-dark);
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            width: fit-content;
-            text-transform: uppercase;
-        }
-
-        .product-title-enhanced {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--luxury-dark);
-            margin: 0;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .product-description-enhanced {
-            color: #666;
-            line-height: 1.6;
-            font-size: 0.95rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            margin: 0;
-        }
-
-        .product-specs-enhanced {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 12px;
-        }
-
-        .spec-item-enhanced {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--luxury-dark);
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-            .spec-item-enhanced i {
-                color: var(--luxury-gold);
-            }
-
-        .spec-divider {
-            width: 2px;
-            height: 20px;
-            background: rgba(212, 175, 55, 0.3);
-        }
-
-        .product-price-section-enhanced {
-            padding: 1.2rem;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(244, 208, 63, 0.05));
-            border-radius: 15px;
-            text-align: center;
-            border: 2px dashed rgba(212, 175, 55, 0.2);
-        }
-
-        .price-label {
-            font-size: 0.8rem;
-            color: #666;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.3rem;
-        }
-
-        .price-value {
-            font-size: 1.6rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--luxury-gold), var(--luxury-gold-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .btn-view-detail-enhanced {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, var(--luxury-dark), var(--luxury-dark-light));
-            border: none;
-            border-radius: 15px;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            transition: var(--transition-smooth);
-        }
-
-            .btn-view-detail-enhanced:hover {
-                background: linear-gradient(135deg, var(--luxury-gold), var(--luxury-gold-light));
-                transform: translateY(-3px);
-                box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-            }
-
-            .btn-view-detail-enhanced i {
-                transition: var(--transition-smooth);
-            }
-
-            .btn-view-detail-enhanced:hover i {
-                transform: translateX(5px);
-            }
-
-        /* Enhanced Loading State */
         .luxury-loading-enhanced {
-            display: none;
+            display: flex;
             justify-content: center;
             align-items: center;
-            padding: 6rem 0;
-            flex-direction: column;
+            padding: 8rem 0;
+        }
+
+        .luxury-spinner-enhanced {
+            text-align: center;
         }
 
         .diamond-spinner-3d {
-            width: 100px;
-            height: 100px;
             position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
             transform-style: preserve-3d;
-            animation: spin3D 3s infinite linear;
+            animation: rotate3d 2s infinite linear;
         }
 
-        @@keyframes spin3D {
+        .diamond-face {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--luxury-gold), var(--luxury-gold-light));
+            opacity: 0.8;
+        }
+
+            .diamond-face:nth-child(1) {
+                transform: rotateY(0deg) translateZ(40px);
+            }
+
+            .diamond-face:nth-child(2) {
+                transform: rotateY(90deg) translateZ(40px);
+            }
+
+            .diamond-face:nth-child(3) {
+                transform: rotateY(180deg) translateZ(40px);
+            }
+
+            .diamond-face:nth-child(4) {
+                transform: rotateY(270deg) translateZ(40px);
+            }
+
+        @@keyframes rotate3d {
             0%
 
         {
@@ -1447,46 +1190,17 @@
 
         }
 
-        .diamond-face {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, var(--luxury-gold), var(--luxury-gold-light));
-            border: 2px solid rgba(255, 255, 255, 0.5);
+        .loading-text h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--luxury-dark);
+            margin-bottom: 1rem;
         }
-
-            .diamond-face:nth-child(1) {
-                transform: rotateY(0deg) translateZ(50px);
-            }
-
-            .diamond-face:nth-child(2) {
-                transform: rotateY(90deg) translateZ(50px);
-            }
-
-            .diamond-face:nth-child(3) {
-                transform: rotateY(180deg) translateZ(50px);
-            }
-
-            .diamond-face:nth-child(4) {
-                transform: rotateY(-90deg) translateZ(50px);
-            }
-
-        .loading-text {
-            margin-top: 3rem;
-            text-align: center;
-        }
-
-            .loading-text h3 {
-                font-size: 1.5rem;
-                font-weight: 700;
-                color: var(--luxury-dark);
-                margin-bottom: 1rem;
-            }
 
         .loading-dots {
             display: flex;
-            gap: 0.5rem;
             justify-content: center;
+            gap: 0.5rem;
         }
 
             .loading-dots span {
@@ -1494,33 +1208,297 @@
                 height: 10px;
                 background: var(--luxury-gold);
                 border-radius: 50%;
-                animation: dotPulse 1.5s infinite;
+                animation: loadingDot 1.4s infinite ease-in-out both;
             }
 
+                .loading-dots span:nth-child(1) {
+                    animation-delay: -0.32s;
+                }
+
                 .loading-dots span:nth-child(2) {
-                    animation-delay: 0.2s;
+                    animation-delay: -0.16s;
                 }
 
-                .loading-dots span:nth-child(3) {
-                    animation-delay: 0.4s;
-                }
-
-        @@keyframes dotPulse {
-            0%, 100%
+        @@keyframes loadingDot {
+            0%, 80%, 100%
 
         {
+            transform: scale(0);
+        }
+
+        40% {
             transform: scale(1);
+        }
+
+        }
+
+        .luxury-products-grid-enhanced {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .luxury-product-card-enhanced {
+            position: relative;
+            transition: var(--transition-smooth);
+        }
+
+            .luxury-product-card-enhanced:hover {
+                transform: translateY(-10px);
+            }
+
+        .product-card-inner-enhanced {
+            position: relative;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition-smooth);
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .luxury-product-card-enhanced:hover .product-card-inner-enhanced {
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .product-badge-corner {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 10;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .has-gem {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.9), rgba(244, 208, 63, 0.9));
+            color: white;
+        }
+
+        .no-gem {
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+        }
+
+        .product-image-container-enhanced {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
+        }
+
+        .image-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .luxury-product-card-enhanced:hover .image-glow {
             opacity: 1;
         }
 
-        50% {
-            transform: scale(1.5);
-            opacity: 0.5;
+        .luxury-product-image-enhanced {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        .luxury-product-card-enhanced:hover .luxury-product-image-enhanced {
+            transform: scale(1.1);
         }
 
-        /* Enhanced Empty State */
+        .product-overlay-enhanced {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .luxury-product-card-enhanced:hover .product-overlay-enhanced {
+            opacity: 1;
+        }
+
+        .quick-view-btn-enhanced {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--luxury-gold), var(--luxury-gold-light));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: var(--transition-smooth);
+            transform: translateY(20px);
+        }
+
+        .luxury-product-card-enhanced:hover .quick-view-btn-enhanced {
+            transform: translateY(0);
+        }
+
+        .quick-view-btn-enhanced:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .product-info-enhanced {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-category-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(244, 208, 63, 0.1));
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--luxury-gold-dark);
+            width: fit-content;
+            margin-bottom: 1rem;
+        }
+
+        .product-title-enhanced {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--luxury-dark);
+            margin: 0 0 0.8rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-description-enhanced {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-specs-enhanced {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            padding: 0.8rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .spec-item-enhanced {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--luxury-dark);
+            font-weight: 600;
+        }
+
+            .spec-item-enhanced i {
+                color: var(--luxury-gold);
+            }
+
+        .spec-divider {
+            width: 1px;
+            height: 20px;
+            background: #ddd;
+        }
+
+        .product-price-section-enhanced {
+            margin-top: auto;
+            padding: 1rem 0;
+            border-top: 2px solid #f0f0f0;
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 1.2rem;
+        }
+
+        .price-label {
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.3rem;
+        }
+
+        .price-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--luxury-gold);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .btn-view-detail-enhanced {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--luxury-gold), var(--luxury-gold-light));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: var(--transition-smooth);
+        }
+
+            .btn-view-detail-enhanced:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            }
+
+                .btn-view-detail-enhanced:hover i {
+                    transform: translateX(5px);
+                }
+
+            .btn-view-detail-enhanced i {
+                transition: transform 0.3s;
+            }
+
+        /* ==================================================
+                   TRẠNG THÁI RỖNG VÀ LỖI
+                   ================================================== */
+
         .luxury-empty-state-enhanced {
             display: none;
             justify-content: center;
@@ -1535,9 +1513,7 @@
 
         .empty-icon-container {
             position: relative;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 2rem;
+            margin-bottom: 2rem;
         }
 
             .empty-icon-container i {
@@ -1559,6 +1535,21 @@
             animation: glowPulse 2s infinite;
         }
 
+        @@keyframes glowPulse {
+            0%, 100%
+
+        {
+            opacity: 0.5;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        50% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        }
+
         .empty-content-enhanced h3 {
             font-size: 2rem;
             font-weight: 700;
@@ -1573,7 +1564,6 @@
             line-height: 1.6;
         }
 
-        /* Enhanced Error State */
         .luxury-error-state-enhanced {
             display: none;
             justify-content: center;
@@ -1645,7 +1635,10 @@
                 box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
             }
 
-        /* Enhanced Pagination */
+        /* ==================================================
+                   PHÂN TRANG
+                   ================================================== */
+
         .luxury-pagination-enhanced {
             display: none;
             justify-content: center;
@@ -1696,7 +1689,10 @@
             font-weight: 700;
         }
 
-        /* Responsive Design */
+        /* ==================================================
+                   RESPONSIVE DESIGN
+                   ================================================== */
+
         @@media (max-width: 1200px) {
             .luxury-products-grid-enhanced
 

@@ -44,11 +44,11 @@ namespace ProductsApi.Service
 
         public  async Task<List<Category>> GetAllCateAsync()
         {
-            var categories = await _productRepository.GetAllAsync();
+            var categories = await _productRepository.GetAllCategoriesAsync();
             return categories.Select(c => new Category
             {
-                Categoryid = c.Category.Categoryid,
-                Categoryname = c.Category.Categoryname
+                Categoryid = c.Categoryid,
+                Categoryname = c.Categoryname
             }).Distinct().ToList();
 
         }

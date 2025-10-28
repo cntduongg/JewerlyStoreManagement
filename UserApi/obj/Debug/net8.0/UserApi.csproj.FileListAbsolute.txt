@@ -144,3 +144,4 @@ C:\Users\ADMIN\Desktop\SWD312\UserApi\obj\Debug\net8.0\refint\UserApi.dll
 C:\Users\ADMIN\Desktop\SWD312\UserApi\obj\Debug\net8.0\UserApi.pdb
 C:\Users\ADMIN\Desktop\SWD312\UserApi\obj\Debug\net8.0\UserApi.genruntimeconfig.cache
 C:\Users\ADMIN\Desktop\SWD312\UserApi\obj\Debug\net8.0\ref\UserApi.dll
+C:\Users\ADMIN\Desktop\SWD312\UserApi\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
