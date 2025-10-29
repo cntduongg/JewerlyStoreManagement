@@ -9,7 +9,7 @@
         public string Productname { get; set; } = null!;
 
         public int Categoryid { get; set; }
-
+        public string Categoryname { get; set; } = null!;
         public string? Model { get; set; }
 
         public string Material { get; set; } = null!;

@@ -1,0 +1,420 @@
+﻿@page "{id:int}"
+@model JWPublic.Pages.ProductDetailModel
+@{
+    ViewData["Title"] = Model.Product?.Productname ?? "Chi tiết sản phẩm";
+}
+
+<style>
+    /* ===== PRODUCT DETAIL PAGE ===== */
+    .product-detail {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+    }
+
+    .detail-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        margin-bottom: 4rem;
+    }
+
+    .detail-images {
+        position: sticky;
+        top: 100px;
+        height: fit-content;
+    }
+
+    .main-image {
+        width: 100%;
+        height: 600px;
+        object-fit: cover;
+        border-radius: 30px;
+        border: 2px solid rgba(212, 175, 55, 0.3);
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(184, 148, 31, 0.15));
+        margin-bottom: 1.5rem;
+    }
+
+    .thumbnail-images {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .thumbnail {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 15px;
+        border: 2px solid rgba(212, 175, 55, 0.3);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .thumbnail:hover {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+    .detail-info {
+        padding: 2rem 0;
+    }
+
+    .breadcrumb {
+        display: flex;
+        gap: 0.5rem;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 2rem;
+        font-size: 0.9rem;
+    }
+
+        .breadcrumb a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+            .breadcrumb a:hover {
+                color: var(--primary);
+            }
+
+    .product-category-badge {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        background: rgba(212, 175, 55, 0.1);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 50px;
+        color: var(--primary);
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-bottom: 1.5rem;
+    }
+
+    .product-title {
+        font-size: 3rem;
+        font-weight: 900;
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+
+    .product-price {
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: var(--primary);
+        margin-bottom: 2rem;
+    }
+
+    .product-description {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.8;
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .product-specs {
+        margin-bottom: 2rem;
+    }
+
+    .spec-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .spec-label {
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 500;
+    }
+
+    .spec-value {
+        color: var(--text-light);
+        font-weight: 600;
+    }
+
+    .contact-advice {
+        background: rgba(212, 175, 55, 0.1);
+        border: 2px solid rgba(212, 175, 55, 0.3);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-top: 3rem;
+        text-align: center;
+    }
+
+        .contact-advice h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-advice p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+
+    .features-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-top: 3rem;
+        padding-top: 3rem;
+        border-top: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .feature-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(212, 175, 55, 0.1);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+
+    .feature-text {
+        flex: 1;
+    }
+
+        .feature-text h4 {
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+            font-size: 1rem;
+        }
+
+        .feature-text p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+    .related-products {
+        max-width: 1400px;
+        margin: 4rem auto;
+        padding: 0 2rem;
+    }
+
+    .section-heading {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+        .section-heading h2 {
+            font-size: 2.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+    .not-found {
+        text-align: center;
+        padding: 6rem 2rem;
+    }
+
+        .not-found h2 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .not-found p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+    @@media (max-width: 1024px) {
+        .detail-container {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .detail-images {
+            position: static;
+        }
+
+        .product-title {
+            font-size: 2rem;
+        }
+
+        .features-list {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .main-image {
+            height: 400px;
+        }
+
+        .product-price {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+@if (Model.Product != null)
+{
+    <div class="product-detail">
+        <div class="breadcrumb">
+            <a asp-page="/Index">Trang chủ</a>
+            <span>/</span>
+            <a asp-page="/Products">Sản phẩm</a>
+            <span>/</span>
+            <span>@Model.Product.Productname</span>
+        </div>
+
+        <div class="detail-container">
+            <div class="detail-images">
+                @if (!string.IsNullOrEmpty(Model.Product.Mainimageurl))
+                {
+                    <img src="@Model.Product.Mainimageurl" alt="@Model.Product.Productname" class="main-image" />
+                }
+                else
+                {
+                    <div class="main-image"></div>
+                }
+            </div>
+
+            <div class="detail-info">
+                <div class="product-category-badge">
+                    @(Model.Product.Categoryname ?? "TRANG SỨC CAO CẤP")
+                </div>
+
+                <h1 class="product-title">@Model.Product.Productname</h1>
+
+                <div class="product-price">@Model.Product.Sellingprice.ToString("N0") ₫</div>
+
+                @if (!string.IsNullOrEmpty(Model.Product.Shortdescription))
+                {
+                    <p class="product-description">
+                        @Model.Product.Shortdescription
+                    </p>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Product.Detaildescription))
+                {
+                    <p class="product-description">
+                        @Model.Product.Detaildescription
+                    </p>
+                }
+
+                <div class="product-specs">
+                    <div class="spec-item">
+                        <span class="spec-label">Mã sản phẩm (ID)</span>
+                        <span class="spec-value">@Model.Product.Productid</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Mã sản phẩm (Code)</span>
+                        <span class="spec-value">@(Model.Product.Productcode ?? "N/A")</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Danh mục</span>
+                        <span class="spec-value">@(Model.Product.Categoryname ?? "Trang sức")</span>
+                    </div>
+                    @if (Model.Product.Material != null)
+                    {
+                        <div class="spec-item">
+                            <span class="spec-label">Chất liệu</span>
+                            <span class="spec-value">@Model.Product.Material</span>
+                        </div>
+                    }
+                    @if (Model.Product.Goldweight != null && Model.Product.Goldweight > 0)
+                    {
+                        <div class="spec-item">
+                            <span class="spec-label">Trọng lượng vàng</span>
+                            <span class="spec-value">@Model.Product.Goldweight.Value.ToString("N2") g</span>
+                        </div>
+                    }
+                    @if (Model.Product.Gemweight != null && Model.Product.Gemweight > 0)
+                    {
+                        <div class="spec-item">
+                            <span class="spec-label">Trọng lượng đá</span>
+                            <span class="spec-value">@Model.Product.Gemweight.Value.ToString("N2") g</span>
+                        </div>
+                    }
+                    @if (Model.Product.Totalweight != null && Model.Product.Totalweight > 0)
+                    {
+                        <div class="spec-item">
+                            <span class="spec-label">Tổng trọng lượng</span>
+                            <span class="spec-value">@Model.Product.Totalweight.Value.ToString("N2") g</span>
+                        </div>
+                    }
+                    @if (Model.Product.Hasgem != null)
+                    {
+                        <div class="spec-item">
+                            <span class="spec-label">Có đá quý</span>
+                            <span class="spec-value">@(Model.Product.Hasgem.Value ? "Có" : "Không")</span>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Product.Gemtype))
+                    {
+                        <div class="spec-item">
+                            <span class="spec-label">Loại đá</span>
+                            <span class="spec-value">@Model.Product.Gemtype</span>
+                        </div>
+                    }
+                </div>
+
+                <div class="contact-advice">
+                    <h3>📞 Liên hệ để được tư vấn mua hàng</h3>
+                    <p>Gọi hotline để nhận tư vấn chi tiết và báo giá tốt nhất</p>
+                </div>
+
+                <div class="features-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">💎</div>
+                        <div class="feature-text">
+                            <h4>Kim cương tự nhiên</h4>
+                            <p>Chứng nhận GIA</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✨</div>
+                        <div class="feature-text">
+                            <h4>Thiết kế độc quyền</h4>
+                            <p>Chế tác thủ công</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🎁</div>
+                        <div class="feature-text">
+                            <h4>Bảo hành trọn đời</h4>
+                            <p>Miễn phí vệ sinh</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🚚</div>
+                        <div class="feature-text">
+                            <h4>Giao hàng miễn phí</h4>
+                            <p>Bảo hiểm 100%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="not-found">
+        <h2>Không tìm thấy sản phẩm</h2>
+        <p>Sản phẩm bạn đang tìm kiếm không tồn tại hoặc đã bị xóa</p>
+        <a asp-page="/Products" class="btn-add-cart" style="display: inline-block; text-decoration: none;">
+            Quay lại danh sách sản phẩm
+        </a>
+    </div>
+}

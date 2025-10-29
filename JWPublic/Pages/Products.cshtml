@@ -1,0 +1,355 @@
+﻿@page
+@model JWPublic.Pages.ProductsModel
+@{
+    ViewData["Title"] = "Sản phẩm";
+}
+
+<style>
+    /* ===== PRODUCTS PAGE ===== */
+    .products-hero {
+        min-height: 40vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 4rem 2rem 2rem;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(26, 26, 26, 0.5) 100%);
+        border-radius: 30px;
+        margin: 2rem auto;
+        max-width: 1400px;
+    }
+
+        .products-hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #d4af37 0%, #f8e5a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .products-hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+        }
+
+    .filter-section {
+        max-width: 1400px;
+        margin: 3rem auto;
+        padding: 0 2rem;
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .filter-btn {
+        padding: 0.8rem 2rem;
+        background: rgba(212, 175, 55, 0.1);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 50px;
+        color: var(--text-light);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+    }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--gradient-1);
+            color: var(--secondary);
+            border-color: var(--primary);
+        }
+
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .product-card {
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(26, 26, 26, 0.5));
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        cursor: pointer;
+    }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+            border-color: var(--primary);
+        }
+
+    .product-image {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(184, 148, 31, 0.15));
+    }
+
+    .product-info {
+        padding: 1.5rem;
+    }
+
+    .product-category {
+        font-size: 0.85rem;
+        color: var(--primary);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+    }
+
+    .product-name {
+        font-size: 1.3rem;
+        color: var(--text-light);
+        margin-bottom: 0.8rem;
+        font-weight: 600;
+    }
+
+    .product-description {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 1rem;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .product-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .product-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .product-btn {
+        padding: 0.6rem 1.5rem;
+        background: var(--gradient-1);
+        color: var(--secondary);
+        border: none;
+        border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .product-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+    .no-products {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+        .no-products h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+    /* ===== PAGINATION ===== */
+    .pagination-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        padding: 4rem 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .pagination {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    .page-btn {
+        min-width: 45px;
+        height: 45px;
+        padding: 0.8rem 1rem;
+        background: rgba(212, 175, 55, 0.1);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 10px;
+        color: var(--text-light);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+    }
+
+        .page-btn:hover {
+            background: var(--gradient-1);
+            color: var(--secondary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .page-btn.active {
+            background: var(--gradient-1);
+            color: var(--secondary);
+            border-color: var(--primary);
+            font-weight: 700;
+        }
+
+        .page-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+    .page-info {
+        color: rgba(255, 255, 255, 0.6);
+        margin: 0 1rem;
+    }
+
+    @@media (max-width: 768px) {
+        .products-hero h1 {
+            font-size: 2.5rem;
+        }
+
+        .products-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .pagination {
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            min-width: 40px;
+            height: 40px;
+            padding: 0.5rem;
+        }
+    }
+</style>
+
+<div class="products-hero">
+    <h1>Bộ Sưu Tập</h1>
+    <p>Khám phá toàn bộ sản phẩm trang sức cao cấp của chúng tôi</p>
+</div>
+
+<div class="filter-section">
+    <button class="filter-btn active">Tất cả</button>
+    <button class="filter-btn">Nhẫn</button>
+    <button class="filter-btn">Dây chuyền</button>
+    <button class="filter-btn">Vòng tay</button>
+    <button class="filter-btn">Hoa tai</button>
+    <button class="filter-btn">Mới nhất</button>
+    <button class="filter-btn">Giá cao</button>
+    <button class="filter-btn">Giá thấp</button>
+</div>
+
+<div class="products-grid">
+    @if (Model.Products != null && Model.Products.Any())
+    {
+        @foreach (var product in Model.Products)
+        {
+            <a asp-page="/ProductDetail" asp-route-id="@product.Productid" style="text-decoration: none; color: inherit;">
+                <div class="product-card">
+                    @if (!string.IsNullOrEmpty(product.Mainimageurl))
+                    {
+                        <img src="@product.Mainimageurl" alt="@product.Productname" class="product-image" />
+                    }
+                    else
+                    {
+                        <div class="product-image"></div>
+                    }
+                    <div class="product-info">
+                        <div class="product-category">@(product.Categoryname ?? "Trang sức")</div>
+                        <h3 class="product-name">@product.Productname</h3>
+                        <p class="product-description">@(product.Detaildescription ?? "Sản phẩm trang sức cao cấp")</p>
+                        <div class="product-footer">
+                            <div class="product-price">@product.Sellingprice.ToString("N0") ₫</div>
+                            <button class="product-btn" onclick="event.preventDefault();">Chi tiết</button>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        }
+    }
+    else
+    {
+        <div class="no-products">
+            <h3>Không có sản phẩm</h3>
+            <p>Hiện tại chưa có sản phẩm nào trong danh mục này</p>
+        </div>
+    }
+</div>
+
+@if (Model.TotalPages > 1)
+{
+    <div class="pagination-section">
+        <div class="pagination">
+            <!-- Previous Button -->
+            <a asp-page="/Products"
+               asp-route-pageNumber="@(Model.CurrentPage - 1)"
+               class="page-btn @(Model.CurrentPage == 1 ? "disabled" : "")">
+                ← Trước
+            </a>
+
+            <!-- First Page -->
+            @if (Model.CurrentPage > 3)
+            {
+                <a asp-page="/Products" asp-route-pageNumber="1" class="page-btn">1</a>
+                @if (Model.CurrentPage > 4)
+                {
+                    <span class="page-btn disabled">...</span>
+                }
+            }
+
+            <!-- Page Numbers -->
+            @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
+            {
+                <a asp-page="/Products"
+                   asp-route-pageNumber="@i"
+                   class="page-btn @(i == Model.CurrentPage ? "active" : "")">
+                    @i
+                </a>
+            }
+
+            <!-- Last Page -->
+            @if (Model.CurrentPage < Model.TotalPages - 2)
+            {
+                @if (Model.CurrentPage < Model.TotalPages - 3)
+                {
+                    <span class="page-btn disabled">...</span>
+                }
+                <a asp-page="/Products" asp-route-pageNumber="@Model.TotalPages" class="page-btn">@Model.TotalPages</a>
+            }
+
+            <!-- Next Button -->
+            <a asp-page="/Products"
+               asp-route-pageNumber="@(Model.CurrentPage + 1)"
+               class="page-btn @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                Sau →
+            </a>
+        </div>
+
+        <div class="page-info">
+            Trang @Model.CurrentPage / @Model.TotalPages (@Model.TotalItems sản phẩm)
+        </div>
+    </div>
+}

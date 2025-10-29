@@ -1,0 +1,403 @@
+﻿@page
+@model JWPublic.Pages.AboutModel
+@{
+    ViewData["Title"] = "Về chúng tôi";
+}
+
+<style>
+    /* ===== ABOUT PAGE ===== */
+    .about-hero {
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+        gap: 4rem;
+    }
+
+    .about-hero-content {
+        flex: 1;
+    }
+
+    .about-hero h1 {
+        font-size: 4rem;
+        font-weight: 900;
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+
+    .about-hero p {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+    }
+
+    .about-hero-image {
+        flex: 1;
+        height: 500px;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(184, 148, 31, 0.2));
+        border: 2px solid rgba(212, 175, 55, 0.3);
+        border-radius: 30px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .about-hero-image::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            opacity: 0.3;
+            filter: blur(60px);
+        }
+
+    .about-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        max-width: 1400px;
+        margin: 4rem auto;
+        padding: 0 2rem;
+    }
+
+    .stat-card {
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(26, 26, 26, 0.5));
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        border-radius: 20px;
+        padding: 3rem 2rem;
+        text-align: center;
+        transition: all 0.4s ease;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+            border-color: var(--primary);
+        }
+
+    .stat-number {
+        font-size: 3.5rem;
+        font-weight: 900;
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .about-story {
+        max-width: 1400px;
+        margin: 6rem auto;
+        padding: 0 2rem;
+    }
+
+    .story-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+    }
+
+    .story-text h2 {
+        font-size: 2.5rem;
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 2rem;
+    }
+
+    .story-text p {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+    }
+
+    .story-image {
+        height: 400px;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(184, 148, 31, 0.15));
+        border: 2px solid rgba(212, 175, 55, 0.3);
+        border-radius: 30px;
+    }
+
+    .values-section {
+        max-width: 1400px;
+        margin: 6rem auto;
+        padding: 0 2rem;
+    }
+
+    .values-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+        .values-header h2 {
+            font-size: 3rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .values-header p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .value-card {
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(26, 26, 26, 0.5));
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        border-radius: 20px;
+        padding: 2.5rem;
+        transition: all 0.4s ease;
+    }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+            border-color: var(--primary);
+        }
+
+    .value-icon {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+        display: block;
+    }
+
+    .value-card h3 {
+        font-size: 1.5rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+    }
+
+    .value-card p {
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.6;
+    }
+
+    .team-section {
+        max-width: 1400px;
+        margin: 6rem auto;
+        padding: 0 2rem;
+    }
+
+    .team-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+        .team-header h2 {
+            font-size: 3rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+    }
+
+    .team-card {
+        text-align: center;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(26, 26, 26, 0.5));
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        border-radius: 20px;
+        padding: 2rem;
+        transition: all 0.4s ease;
+    }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+        }
+
+    .team-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: var(--gradient-1);
+        margin: 0 auto 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--secondary);
+    }
+
+    .team-name {
+        font-size: 1.3rem;
+        color: var(--text-light);
+        margin-bottom: 0.5rem;
+    }
+
+    .team-role {
+        color: var(--primary);
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+    }
+
+    .team-bio {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    @@media (max-width: 1024px) {
+        .about-hero {
+            flex-direction: column;
+            text-align: center;
+        }
+
+            .about-hero h1 {
+                font-size: 3rem;
+            }
+
+        .story-content {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .about-hero h1 {
+            font-size: 2.5rem;
+        }
+
+        .values-header h2,
+        .team-header h2 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<div class="about-hero">
+    <div class="about-hero-content">
+        <h1>Về Jewelry Store</h1>
+        <p>Chúng tôi là thương hiệu trang sức cao cấp hàng đầu, mang đến những sản phẩm kim cương và vàng 18K được chế tác tinh xảo nhất. Với hơn 15 năm kinh nghiệm, chúng tôi tự hào là đối tác đáng tin cậy của hơn 50,000 khách hàng.</p>
+        <p>Mỗi sản phẩm tại Jewelry Store đều là một tác phẩm nghệ thuật độc đáo, được thiết kế và chế tác bởi những nghệ nhân tài hoa nhất. Chúng tôi cam kết mang đến cho bạn không chỉ là trang sức, mà là những khoảnh khắc đáng nhớ và giá trị vượt thời gian.</p>
+    </div>
+    <div class="about-hero-image"></div>
+</div>
+
+<div class="about-stats">
+    <div class="stat-card">
+        <div class="stat-number">15+</div>
+        <div class="stat-label">Năm kinh nghiệm</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">50K+</div>
+        <div class="stat-label">Khách hàng</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Kim cương tự nhiên</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">10+</div>
+        <div class="stat-label">Chi nhánh</div>
+    </div>
+</div>
+
+<div class="about-story">
+    <div class="story-content">
+        <div class="story-text">
+            <h2>Câu Chuyện Của Chúng Tôi</h2>
+            <p>Jewelry Store được thành lập vào năm 2010 với niềm đam mê tạo ra những tác phẩm trang sức tinh tế và sang trọng. Khởi đầu từ một cửa hàng nhỏ, chúng tôi đã không ngừng phát triển và nâng cao chất lượng sản phẩm.</p>
+            <p>Ngày nay, Jewelry Store đã trở thành một trong những thương hiệu trang sức cao cấp được yêu thích nhất, với 10 chi nhánh trên toàn quốc và đội ngũ hơn 100 nghệ nhân tài năng.</p>
+            <p>Chúng tôi tin rằng mỗi món trang sức không chỉ là phụ kiện, mà là biểu tượng của tình yêu, sự cam kết và những khoảnh khắc đáng nhớ trong cuộc đời.</p>
+        </div>
+        <div class="story-image"></div>
+    </div>
+</div>
+
+<div class="values-section">
+    <div class="values-header">
+        <h2>Giá Trị Cốt Lõi</h2>
+        <p>Những nguyên tắc định hướng mọi hoạt động của chúng tôi</p>
+    </div>
+    <div class="values-grid">
+        <div class="value-card">
+            <span class="value-icon">💎</span>
+            <h3>Chất lượng</h3>
+            <p>Chỉ sử dụng kim cương và vàng 18K được chứng nhận quốc tế. Mỗi sản phẩm đều trải qua quy trình kiểm định nghiêm ngặt.</p>
+        </div>
+        <div class="value-card">
+            <span class="value-icon">✨</span>
+            <h3>Sáng tạo</h3>
+            <p>Thiết kế độc quyền và sáng tạo, kết hợp giữa nghệ thuật truyền thống và xu hướng hiện đại.</p>
+        </div>
+        <div class="value-card">
+            <span class="value-icon">🤝</span>
+            <h3>Tận tâm</h3>
+            <p>Đội ngũ tư vấn chuyên nghiệp, tận tâm đồng hành cùng bạn trong mọi khoảnh khắc quan trọng.</p>
+        </div>
+        <div class="value-card">
+            <span class="value-icon">🎯</span>
+            <h3>Uy tín</h3>
+            <p>Minh bạch trong mọi giao dịch, bảo hành trọn đời và cam kết chất lượng vàng đá quý.</p>
+        </div>
+    </div>
+</div>
+
+<div class="team-section">
+    <div class="team-header">
+        <h2>Đội Ngũ Của Chúng Tôi</h2>
+    </div>
+    <div class="team-grid">
+        <div class="team-card">
+            <div class="team-avatar">N</div>
+            <h3 class="team-name">Nguyễn Văn A</h3>
+            <p class="team-role">Giám đốc điều hành</p>
+            <p class="team-bio">15 năm kinh nghiệm trong ngành trang sức cao cấp</p>
+        </div>
+        <div class="team-card">
+            <div class="team-avatar">T</div>
+            <h3 class="team-name">Trần Thị B</h3>
+            <p class="team-role">Giám đốc thiết kế</p>
+            <p class="team-bio">Chuyên gia thiết kế trang sức với hơn 20 giải thưởng quốc tế</p>
+        </div>
+        <div class="team-card">
+            <div class="team-avatar">L</div>
+            <h3 class="team-name">Lê Văn C</h3>
+            <p class="team-role">Trưởng phòng kim hoàn</p>
+            <p class="team-bio">Nghệ nhân kim hoàn với 25 năm kinh nghiệm</p>
+        </div>
+        <div class="team-card">
+            <div class="team-avatar">P</div>
+            <h3 class="team-name">Phạm Thị D</h3>
+            <p class="team-role">Giám đốc khách hàng</p>
+            <p class="team-bio">Chuyên gia tư vấn trang sức cao cấp</p>
+        </div>
+    </div>
+</div>

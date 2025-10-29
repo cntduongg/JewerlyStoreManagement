@@ -22,12 +22,14 @@ namespace ProductsApi.Service
                 productDtos.Add(new ProductsDto
                 {
                     ProductId = product.Productid,
-
+                   
                     ProductName = product.Productname,
                     SellingPrice = product.Sellingprice,
                     MainImageUrl = product.Mainimageurl,
                     ShortDescription = product.Shortdescription,
+                    DetailDescription = product.Detaildescription,
                     CategoryName = product.Category?.Categoryname,
+                    Productcode = product.Productcode,
                     GoldWeight = product.Goldweight,
                     GemWeight = product.Gemweight,
                     TotalWeight = product.Totalweight,

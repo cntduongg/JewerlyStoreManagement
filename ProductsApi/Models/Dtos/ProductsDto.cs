@@ -15,6 +15,7 @@
         public string Material { get; set; }
         public bool? HasGem { get; set; }
         public string GemType { get; set; }
+        public string Productcode { get; set; } = null!;
         public string DisplayImageUrl
         {
             get
