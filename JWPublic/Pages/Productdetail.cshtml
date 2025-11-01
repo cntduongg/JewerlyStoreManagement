@@ -281,7 +281,10 @@
             <div class="detail-images">
                 @if (!string.IsNullOrEmpty(Model.Product.Mainimageurl))
                 {
-                    <img src="@Model.Product.Mainimageurl" alt="@Model.Product.Productname" class="main-image" />
+                    <img src="~/images/@Model.Product.Mainimageurl"
+                         alt="@Model.Product.Productname"
+                         class="product-image"
+                         onerror="this.src='/images/placeholder.jpg'" />
                 }
                 else
                 {

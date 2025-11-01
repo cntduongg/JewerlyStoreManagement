@@ -271,7 +271,10 @@
                 <div class="product-card">
                     @if (!string.IsNullOrEmpty(product.Mainimageurl))
                     {
-                        <img src="@product.Mainimageurl" alt="@product.Productname" class="product-image" />
+                        <img src="~/images/@product.Mainimageurl"
+                             alt="@product.Productname"
+                             class="product-image"
+                             onerror="this.src='/images/placeholder.jpg'" />
                     }
                     else
                     {

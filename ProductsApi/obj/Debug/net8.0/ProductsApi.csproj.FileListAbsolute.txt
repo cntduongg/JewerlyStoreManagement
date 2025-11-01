@@ -138,3 +138,5 @@ C:\Users\ADMIN\Desktop\SWD312\ProductsApi\obj\Debug\net8.0\ProductsApi.pdb
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\obj\Debug\net8.0\ProductsApi.genruntimeconfig.cache
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\obj\Debug\net8.0\ref\ProductsApi.dll
 C:\Users\ADMIN\Desktop\SWD312\ProductsApi\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\ImageMigrationTool\bin\Debug\net9.0\ImageMigrationTool.deps.json
+C:\Users\ADMIN\Desktop\SWD312\ProductsApi\bin\Debug\net8.0\ImageMigrationTool\bin\Debug\net9.0\ImageMigrationTool.runtimeconfig.json
